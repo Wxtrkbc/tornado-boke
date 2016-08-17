@@ -1,0 +1,39 @@
+{% extends '../base/layout.html' %}
+
+{% block css %}
+<link href="{{static_url('plugins/jquery.bxslider.css')}}" rel="stylesheet">
+{% end %}
+
+<!--Each day wake up and ask yourself what will make you feel most alive that day.-->
+<!--“Be who you are and say what you feel, because those who mind don't matter and those who matter don't mind.”-->
+
+{% block body %}
+<div class="top-slider">
+    <ul class="bxslider">
+        <li><img src="{{static_url('picture/Hk.png')}}" title="  “Each day wake up and ask yourself what will make you feel most alive that day.”"/></li>
+        <li><img src="{{static_url('picture/BIO.png')}}" title="“Be who you are and say what you feel, because those who mind don't matter and those who matter don't mind.”"/></li>
+    </ul>
+</div>
+
+<div class="picture-left float-l">
+    <div class="picture-container">
+
+    </div>
+</div>
+
+{% end %}
+
+{% block js %}
+<script src="{{static_url('plugins/jquery.bxslider.js')}}"></script>
+<script>
+    $(document).ready(function () {
+        $('.bxslider').bxSlider({
+            infiniteLoop: true,
+            captions: true,
+            controls: true,
+            autoHover: true,
+            auto:true,
+        });
+    });
+</script>
+{% end %}

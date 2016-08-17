@@ -1,0 +1,22 @@
+{% extends '../base/layout.html' %}
+{% block css %}
+<link href="{{static_url('css/publish.css')}}" rel="stylesheet">
+{% end %}
+
+
+{% block body %}
+<div class="publish">
+    <form action="publish" method="post" enctype="multipart/form-data">
+        <div class="title">
+            <label class="title-label">标题:</label>
+            <input type="text" name="title" >
+        </div>
+        <div class="content1">
+            <label class="content-label">内容:</label>
+            <textarea  name="content"></textarea>
+        </div>
+        <input type="file" name='up_picture'>
+        <input class="submit" type="submit" value="提交">
+    </form>
+</div>
+{% end %}

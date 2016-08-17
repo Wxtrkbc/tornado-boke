@@ -1,0 +1,83 @@
+{% extends '../base/layout.html' %}
+{% block css %}
+<link href="{{static_url('css/css/common.css')}}" rel="stylesheet">
+<link href="{{static_url('css/css/register.css')}}" rel="stylesheet">
+{% end %}
+
+
+{% block body %}
+    <div class="body">
+        <div class="shadow">
+            <div class="body_container clearfix">
+                <div class="left float-l">
+                    <div class="left_content">
+                        <form action="register" method="post">
+                            <div id="username" class="item">
+                                <label><span class="red">*</span> 用户名:</label>
+                                <input type="text" placeholder="您的账户和登陆名" name="user">
+                                <i class="i-name"></i>
+                            </div>
+                            <div class="hiden info" id="info-name"></div>
+
+                            <div id="phone" class="item">
+                                <label><span class="red">*</span> 手机号:</label>
+                                <input  name="phone" type="text" placeholder="建议使用常用手机">
+                                <i class="i-phone"></i>
+                            </div>
+                            <div class="hiden info" id="info-phone"></div>
+
+                            <div id="passwd" class="item">
+                                <label><span class="red">*</span> 登陆密码:</label>
+                                <input  name="userpasswd" type="password" placeholder="建议使用两种字符组合" >
+                                <i class="i-passwd"></i>
+                            </div>
+                            <div class="hiden info" id="info-passwd"></div>
+
+                            <div id="checkpsd" class="item">
+                                <label><span class="red">*</span> 确认密码:</label>
+                                <input  type="password" placeholder="请再次输入密码">
+                                <i class="i-checkpsd"></i>
+                            </div>
+                            <div class="hiden info" id="info-checkpsd"></div>
+
+                            <div id="checknum" class="item">
+                                <label><span class="red">*</span> 验证码:</label>
+                                <input  type="text" placeholder="请输入验证码" name="check_code">
+                                <i class="i-checknum"><img onclick="ChangeCode();" id="imgcode" src="/check_code" height="36px" width="60px"></i>
+                            </div>
+                            <div class="hiden info" id="info-checknum"></div>
+
+                            <div class="agree">
+                                <div class="checkbox">
+                                    <input type="checkbox" checked="checked" name="agree">我已阅读并同意
+                                    <a href="">《抽屉用户注册协议》</a>
+                                </div>
+                            </div>
+                            <div class="register">
+                                <button  type="submit">同意以上协议并注册</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="right float-r">
+                    <div class="right_content">
+                        <img src="{{static_url('pic/pic/phone.jpg')}}" alt="pic">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% end %}
+
+{% block js %}
+    <script src="{{static_url('js/jquery-1.12.4.js')}}"></script>
+    <script src="{{static_url('js/register.js')}}"></script>
+    <script>
+        function ChangeCode() {
+            var code = document.getElementById('imgcode');
+            code.src += '?'
+        }
+    </script>
+{% end %}
+

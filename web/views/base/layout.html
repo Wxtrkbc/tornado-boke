@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>YouSpace</title>
+    <link href="{{static_url('css/common.css')}}" type="text/css" rel="stylesheet">
+    {% block css %} {% end %}
+</head>
+<body>
+<div class="header">
+    <div class="header_container">
+        <div class="nav">
+            <div class="logo float-l">
+                <a href="/index">YouSpace</a>
+            </div>
+            <div class="nav_content float-l">
+                <a href="javascript:void(0)">Home</a>
+                <a href="javascript:void(0)">Picture</a>
+                <a href="javascript:void(0)">Articles</a>
+            </div>
+            <div class="account float-r">
+                <a href="javascript:void(0)">Login</a>
+                <a href="javascript:void(0)">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="body">
+    <div class="body_container">
+         {% block body %}
+         {% end %}
+    </div>
+
+</div>
+<div class="footer">
+    <div class="footer_container">
+
+    </div>
+</div>
+<!--<a class="back-to-head" href="javascript:scroll(0,0)"></a>-->
+<script src="{{static_url('js/jquery-2.1.4.min.js')}}"></script>
+{% block js %} {% end %}
+</body>
+</html>

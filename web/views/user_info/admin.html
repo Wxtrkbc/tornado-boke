@@ -1,0 +1,15 @@
+{% extends '../base/layout.html' %}
+{% block css %}
+<link href="{{static_url('')}}" rel="stylesheet">
+{% end %}
+
+
+{% block body %}
+<div class="admin">
+    <h1>admin</h1>
+    <form action="admin" method="post">
+        <input style="width: 200px ;height:25px" type="text" placeholder="请输入要禁止发布文章的id" name="tid">
+        <input type="submit" value="提交">
+    </form>
+</div>
+{% end %}
