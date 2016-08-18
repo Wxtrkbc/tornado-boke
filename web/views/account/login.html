@@ -1,68 +1,56 @@
 {% extends '../base/layout.html' %}
 {% block css %}
-<link href="{{static_url('css/css/common.css')}}" rel="stylesheet">
-<link href="{{static_url('css/css/login.css')}}" rel="stylesheet">
+<link href="{{static_url('css/login.css')}}" rel="stylesheet">
 {% end %}
 
 
 {% block body %}
-    <div class="body">
-        <div class="shadow">
-            <div class="body_container clearfix">
-                <div class="left float-l">
-                    <img src="{{static_url('pic/pic/login_logo.png')}}" width="400px" height="355px" alt="pic">
-                </div>
-                <div class="right float-r">
-                    <div class="right_content">
-                        <form action="login" method="post">
-                            <div id="username" class="item">
-                                <label><span class="red">*</span> 用户名:</label>
-                                <input  name="username" type="text" placeholder="请输入的账户名" >
-                                <i class="i-name"></i>
-                            </div>
-                            <div class="hiden info" id="info-name"></div>
+<div class="shadow">
+    <div class="login-content ">
+        <form action="login" method="post">
+            <div id="username" class="item">
+                <label><span class="red">*</span> Username:</label>
+                <input name="username" type="text" placeholder="Input your username or Email">
+            </div>
+            <div class="hidden info" id="info-name"></div>
 
-                            <div id="passwd" class="item">
-                                <label><span class="red">*</span> 登陆密码:</label>
-                                <input  name="password" type="password" placeholder="请输入你的密码">
-                                <i class="i-passwd"></i>
-                            </div>
-                            <div class="hiden info" id="info-passwd"></div>
+            <div id="passwd" class="item">
+                <label><span class="red">*</span> Password:</label>
+                <input name="password" type="password" placeholder="Input Your Password">
+            </div>
+            <div class="hidden info" id="info-passwd"></div>
 
-                            <div id="checknum" class="item">
-                                <label><span class="red">*</span> 验证码:</label>
-                                <input  type="text" placeholder="请输入验证码" name="check_code">
-                                <i class="i-checknum"><img onclick="ChangeCode();" src="/check_code" height="36px" width="60px" id="imgcode"></i>
-                            </div>
-                            <div class="hiden info" id="info-checknum"></div>
+            <div id="checknum" class="item">
+                <label><span class="red">*</span> IdentityCode:</label>
+                <input type="text" placeholder="Input You Identity Code" name="check_code">
+                <i class="i-checknum"><img onclick="ChangeCode();" src="/check_code" height="36px" width="60px"
+                                           id="imgcode"></i>
+            </div>
+            <div class="hidden info" id="info-checknum"></div>
 
-                            <div class="agree">
-                                <div class="checkbox">
-                                    <input type="checkbox" checked="checked" name="agree">自动登陆
-                                    <a href="">忘记密码？</a>
-                                </div>
-                            </div>
-                            <div class="login">
-                                <button  type="submit" onclick="return Register();">登  陆</button>
-                            </div>
-                        </form>
-                        <div class="register">
-                            <a href="http://127.0.0.1:8888/register">免费注册>></a>
-                        </div>
-                    </div>
+            <div class="agree">
+                <div class="checkbox">
+                    <input type="checkbox" checked="checked" name="agree">自动登陆
+                    <a href="">忘记密码？</a>
                 </div>
             </div>
+            <div class="login">
+                <button type="submit" >Login</button>
+            </div>
+        </form>
+         <div class="register">
+            <a href="http://127.0.0.1:8888/register">Register>></a>
         </div>
     </div>
+</div>
 {% end %}
 
 {% block js %}
-    <script src="{{static_url('js/jquery-1.12.4.js')}}"></script>
-    <script src="{{static_url('js/login.js')}}"></script>
-    <script>
-         function ChangeCode() {
-            var code = document.getElementById('imgcode');
-            code.src += '?'
-        }
-    </script>
+<script src="{{static_url('js/login.js')}}"></script>
+<script>
+    function ChangeCode() {
+        var code = document.getElementById('imgcode');
+        code.src += '?'
+    }
+</script>
 {% end %}

@@ -1,0 +1,78 @@
+
+.shadow {
+    width: 960px;
+    margin: 80px auto;
+    position: relative;
+    /*background-color: #ebeeef;*/
+}
+.login-content{
+    width: 500px;
+    margin: 0 auto;
+    /*position: relative;*/
+    /*top: -10px;*/
+    /*right: -10px;*/
+}
+.login-content form .info{
+    height: 35px;
+    line-height: 35px;
+    width: 200px;
+    margin-left: 156px;
+    color: darkred;
+}
+.login-content .item label{
+    display: inline-block;
+    text-align: right;
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    color: #555;
+}
+.login-content .item input{
+    display: inline-block;
+    width: 280px;
+    height: 40px;
+}
+.login-content .item .i-checknum{
+    position: absolute;
+    right: 295px;
+    top: 162px;
+}
+
+.login-content .agree div{
+    width: 250px;
+    font-size: 13px;
+    height: 25px;
+    margin-left: 155px;
+}
+.login-content .agree input{
+    height: 18px;
+    width: 18px;
+    margin-right:10px;
+    vertical-align:text-top;  // 把元素的顶端与父元素字体的顶端对齐
+}
+
+.login-content .login button{
+    display: block;
+    width: 280px;
+    height: 40px;
+    color: white;
+    line-height: 40px;
+    text-align: center;
+    background-color: slategray;
+    margin-left: 155px;
+    border: 0;
+    margin-top: 22px;
+}
+.login-content .register{
+    width: 88px;
+    height: 40px;
+    background-color: slategray;
+    color: white;
+    line-height: 40px;
+    margin-left: 500px;
+    margin-top: 20px;
+}
+
+
+
+

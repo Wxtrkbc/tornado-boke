@@ -3,8 +3,8 @@
 
 import fields
 
-class BaseForm:
 
+class BaseForm:
     def __init__(self):
         self._value_dict = {}
         self._error_dict = {}
