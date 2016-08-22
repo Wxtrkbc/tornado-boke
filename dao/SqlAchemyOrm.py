@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-# -*- coding:utf-8 -*-
+# coding=utf-8
+
+
+# 该文件仅仅用来创建表结构
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
@@ -139,10 +142,10 @@ def init_db():
 def drop_db():
     Base.metadata.drop_all(ENGINE)
 
-
-def session():
-    cls = sessionmaker(bind=ENGINE)
-    return cls()
+#
+# def session():
+#     cls = sessionmaker(bind=ENGINE)
+#     return cls()
 
 
 # drop_db()
