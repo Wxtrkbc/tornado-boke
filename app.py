@@ -3,6 +3,8 @@
 import tornado.ioloop
 import tornado.web
 from web.controllers import home
+from web.controllers import account
+from web.controllers import identity
 import tornado.autoreload
 settings = {
     'template_path': 'web/views',
@@ -15,10 +17,19 @@ settings = {
 
 application = tornado.web.Application([
     (r"/index", home.IndexHandler),
+    (r"/register", account.RegisterHandler),
+    (r"/login", account.LoginHandler),
+    (r"/check_code", identity.CheckCodeHandler),      # 随机验证码
+    (r"/check_username", identity.CheckUserHandler),  # 检查用户名是否存在
+    (r"/check_email", identity.CheckEmailHandler),    # 检查邮箱是否存在
+    (r"/send_msg", identity.SendMsgHandler),          # 向用户注册邮箱发送验证码
 ], **settings)
 
 
 if __name__ == "__main__":
 
     application.listen(8888)
-    tornado.ioloop.IOLoop.instance().start()
+    # tornado.ioloop.IOLoop.instance().start()
+    instance = tornado.ioloop.IOLoop.instance()
+    tornado.autoreload.start(instance)
+    instance.start()

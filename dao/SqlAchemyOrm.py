@@ -38,7 +38,7 @@ class UserInfo(Base):
     ctime = Column(TIMESTAMP)
 
     # 自引用，多对多
-    followed = relationship('UserInfo', secondary='Follow.__table__',  backref='followers')
+    # followed = relationship('UserInfo', secondary='Follow.__table__',  backref='followers')
 
     __table_args__ = (
         Index('ix_user_pwd', 'username', 'password'),

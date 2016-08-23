@@ -31,11 +31,13 @@ class UserInfoDao:
         self.db_conn = DBConnection()
         self.conn = self.db_conn.connect()
 
-    # 通过id
+    # 通过username
     def fetchByUsername(self, username):
-        print(username, 111)
-        print(self.conn.query(ORM.UserInfo).all())
         return self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.username == username).first()
+
+    # 通过email
+    def fetchByEmail(self, email):
+        return self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.email == email).first()
 
     # 通过用户名和密码
     def fetchByUP(self, user, pwd):
@@ -43,3 +45,5 @@ class UserInfoDao:
 
     def close(self):
         self.db_conn.close()
+
+

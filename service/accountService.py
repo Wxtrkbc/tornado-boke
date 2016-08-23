@@ -4,11 +4,14 @@
 from dao.DaoFactory import *
 
 
-
 def isExistUser(username):
     userInfo = UserInfoFactory.get_dao()
     return userInfo.fetchByUsername(username)
 
+
+def isExistEmail(eamil):
+    userInfo = UserInfoFactory.get_dao()
+    return userInfo.fetchByUsername(eamil)
 
 
 def login(username, password):
