@@ -11,13 +11,13 @@ function init() {
     emailFlag = false;
     passwordFlag = false;
     checkpsdFlag = false;
-    checknumFlag = false;
+    // checknumFlag = false;
     passwd = '';  // 保存用户输入的密码
     usernameBindBlur();
     emailBindBlur();
     passwdBindBlur();
     checkpsdBindBlur();
-    checknumBindBlur();
+    // checknumBindBlur();
     registerBindClick();
     
     BindSendMsg()
@@ -144,15 +144,15 @@ function checkpsdBindBlur() {
 }
 
 // 邮箱验证码
-function checknumBindBlur() {
-    checknumFlag = true;
-}
+// function checknumBindBlur() {
+//     checknumFlag = true;
+// }
 
 function registerBindClick() {
     $(".register button").click(function () {
         var ret = false;
         myTrigger();
-        if (usernameFlag & emailFlag & passwordFlag & checkpsdFlag & checknumFlag) {
+        if (usernameFlag & emailFlag & passwordFlag & checkpsdFlag ) {
             console.log(111)
             ret = true;
         } else {
@@ -177,9 +177,9 @@ function BindSendMsg() {
     $("#fetch-code").click(function () {
         var email = $("#email").children("input").val();
         console.log(email);
-        if (email.trim().length == 0) {
+        if (!emailFlag) {
             // $('#register_error_summary').text('请输入注册邮箱');
-            $("#info-email").removeClass('hidden').text('请输入邮箱');
+            $("#info-email").removeClass('hidden').text('请输入正确的邮箱');
             return;
         }
         if ($(this).hasClass('sending')) {
@@ -194,10 +194,7 @@ function BindSendMsg() {
             data: {email: email},
             // dataType: 'json',
             success: function (arg) {
-                if (arg=='false') {
-                    // $('#register_error_summary').text(arg.summary);
-                    $("#info-email").removeClass('hidden').text('xxxx');
-                } else {
+                if (arg=='True') {
                     ths.addClass('sending');
                     var interval = setInterval(function () {
                         ths.text("已发送(" + time + ")");
@@ -208,6 +205,9 @@ function BindSendMsg() {
                             ths.text("获取验证码");
                         }
                     }, 1000);
+                    
+                } else {
+                    $("#info-checkcode").removeClass('hidden').text(arg);
                 }
             }
         });

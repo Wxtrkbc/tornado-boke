@@ -47,3 +47,45 @@ class UserInfoDao:
         self.db_conn.close()
 
 
+class SendMsgDao:
+    def __init__(self):
+        self.db_conn = DBConnection()
+        self.conn = self.db_conn.connect()
+
+    # 判断该email下已经发送验证码的次数
+    def fetchCount(self, email):
+        return self.conn.query(ORM.SendMsg).filter_by(email=email).count()
+
+    def fetchCountOverDate(self, email, limit_day):
+        return self.conn.query(ORM.SendMsg).filter(ORM.SendMsg.email == email, ORM.SendMsg.ctime < limit_day).count()
+
+    def clearTimes(self, email):
+        self.conn.query(ORM.SendMsg).filter_by(email=email).update({"times": 0})
+        self.conn.commit()
+
+    def flashTimes(self, email, current_date, code):
+        self.conn.query(ORM.SendMsg).filter_by(email=email).update({"times": ORM.SendMsg.times + 1,
+                                                                    "code": code,
+                                                                    "ctime": current_date},
+                                                                   synchronize_session="evaluate")
+
+        self.conn.commit()
+
+    def fetchCountBytime(self, email, limit_day):
+        return self.conn.query(ORM.SendMsg).filter(ORM.SendMsg.email == email,
+                                                   ORM.SendMsg.ctime > limit_day,
+                                                   ORM.SendMsg.times >= 10,
+                                                   ).count()
+
+    def insertCode(self, email, code, time):
+        code = ORM.SendMsg(code=code, email=email, ctime=time)
+        self.conn.add(code)
+        self.conn.commit()
+
+    def fetchValidCode(self, email, code, time):
+        return self.conn.query(ORM.SendMsg).filter(ORM.SendMsg.email == email,
+                                                   ORM.SendMsg.code == code,
+                                                   ORM.SendMsg.ctime > time).count()
+
+    def close(self):
+        self.db_conn.close()

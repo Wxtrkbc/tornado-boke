@@ -14,3 +14,15 @@ class UserInfoFactory:
     @staticmethod
     def get_dao():
         return UserInfoFactory.__dao
+
+
+class SendMsgFactory:
+    __dao = PyORM.SendMsgDao()
+
+    @staticmethod
+    def set_dao(dao):
+        SendMsgFactory.__dao = dao
+
+    @staticmethod
+    def get_dao():
+        return SendMsgFactory.__dao
