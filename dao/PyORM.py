@@ -43,6 +43,11 @@ class UserInfoDao:
     def fetchByUP(self, user, pwd):
         return self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.username == user, ORM.UserInfo.password == pwd).first()
 
+    def insetUser(self, username, password, email, ctime):
+        user = ORM.UserInfo(username=username, password=password, email=email, ctime=ctime)
+        self.conn.add(user)
+        self.conn.commit()
+
     def close(self):
         self.db_conn.close()
 

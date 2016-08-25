@@ -13,10 +13,10 @@ function init() {
     checkpsdFlag = false;
     // checknumFlag = false;
     passwd = '';  // 保存用户输入的密码
-    usernameBindBlur();
-    emailBindBlur();
-    passwdBindBlur();
-    checkpsdBindBlur();
+    // usernameBindBlur();
+    // emailBindBlur();
+    // passwdBindBlur();
+    // checkpsdBindBlur();
     // checknumBindBlur();
     registerBindClick();
     
@@ -148,13 +148,48 @@ function checkpsdBindBlur() {
 //     checknumFlag = true;
 // }
 
+// function registerBindClick() {
+//     $(".register button").click(function () {
+//         var ret = false;
+//         myTrigger();
+//         if (usernameFlag & emailFlag & passwordFlag & checkpsdFlag ) {
+//             console.log(111)
+//             ret = true;
+//         } else {
+//             alert('您的输入有误，请重新输入');
+//         }
+//         return ret;
+//     });
+// }
+
+
 function registerBindClick() {
     $(".register button").click(function () {
         var ret = false;
         myTrigger();
-        if (usernameFlag & emailFlag & passwordFlag & checkpsdFlag ) {
-            console.log(111)
-            ret = true;
+        if (usernameFlag & emailFlag & passwordFlag & checkpsdFlag) {
+            var register_info = {};
+            $(".register-content form input").each(function () {
+                var name = $(this).attr('name');
+                var value = $(this).val();
+                register_info[name] = value
+            });
+            console.log(register_info);
+            $.ajax({
+                url:'/register',
+                type:'POST',
+                data: register_info,
+                dataType:'json',
+                success:function (arg) {
+                    if (arg.status){
+                        // window.location.href = '/index';
+                    }else {
+                        $.each(arg.message, function(k,v){
+                            $('.register-content form input[name="'+ k +'"]').parent().next().removeClass('hidden').text(v);
+                        })
+                    }
+                }
+            })
         } else {
             alert('您的输入有误，请重新输入');
         }

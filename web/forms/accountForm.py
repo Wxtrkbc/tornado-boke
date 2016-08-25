@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-import forms
-import fileds
+from web.forms import forms
+from web.forms import fileds
 
 
 class SendMsgForm(forms.BaseForm):
@@ -14,7 +14,7 @@ class SendMsgForm(forms.BaseForm):
 
 class RegisterForm(forms.BaseForm):
     def __init__(self):
-        self.user = fileds.StringField()
+        self.username = fileds.StringField()
         self.email = fileds.EmailField()
         self.email_code = fileds.StringField()
         self.password = fileds.StringField()

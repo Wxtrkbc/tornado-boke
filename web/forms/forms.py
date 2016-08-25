@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-import fields
+from web.forms import fileds
 
 
 class BaseForm:
@@ -16,9 +16,9 @@ class BaseForm:
             if field_name.startswith('_'):
                 continue
 
-            if type(field_obj) == fields.CheckBoxField:
+            if type(field_obj) == fileds.CheckBoxField:
                 post_value = handler.get_arguments(field_name, None)
-            elif type(field_obj) == fields.FileField:
+            elif type(field_obj) == fileds.FileField:
                 post_value = []
                 file_list = handler.request.files.get(field_name, [])
                 for file_item in file_list:

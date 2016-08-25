@@ -13,7 +13,7 @@ def isExistUser(username):
 
 def isExistEmail(email):
     userInfo = UserInfoFactory.get_dao()
-    return userInfo.fetchByUsername(email)
+    return userInfo.fetchByEmail(email)
 
 
 def emailCode(email):
