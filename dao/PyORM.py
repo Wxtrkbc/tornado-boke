@@ -5,7 +5,7 @@ import config
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from dao import SqlAchemyOrm as ORM
-
+from sqlalchemy import and_, or_
 
 # 用来连接数据库
 class DBConnection:
@@ -40,8 +40,13 @@ class UserInfoDao:
         return self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.email == email).first()
 
     # 通过用户名和密码
-    def fetchByUP(self, user, pwd):
-        return self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.username == user, ORM.UserInfo.password == pwd).first()
+    def fetchByUE(self, user, pwd):
+        return self.conn.query(ORM.UserInfo).filter(
+            or_(
+                and_(ORM.UserInfo.username == user, ORM.UserInfo.password == pwd),
+                and_(ORM.UserInfo.email == user, ORM.UserInfo.password == pwd),
+                )
+        ).first()
 
     def insetUser(self, username, password, email, ctime):
         user = ORM.UserInfo(username=username, password=password, email=email, ctime=ctime)

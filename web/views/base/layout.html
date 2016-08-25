@@ -18,10 +18,18 @@
                 <a href="javascript:void(0)">Picture</a>
                 <a href="javascript:void(0)">Articles</a>
             </div>
-            <div class="account float-r">
-                <a href="/login">Login</a>
-                <a href="/register">Register</a>
-            </div>
+            {% if handler.session['is_login'] %}
+                <div>
+                    <div class="account float-r">
+                        <a href="javascript:void(0)">{{handler.session['user_info']['username']}}</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="account float-r">
+                    <a href="/login">Login</a>
+                    <a href="/register">Register</a>
+                </div>
+            {% end %}
         </div>
     </div>
 </div>

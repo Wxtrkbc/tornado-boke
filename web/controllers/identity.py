@@ -12,7 +12,7 @@ class CheckCodeHandler(BaseHandler):      # 生成4位验证码
         mstream = io.BytesIO()
         img, code = check_code.create_validate_code()
         img.save(mstream, 'GIF')
-        # self.session['CheckCode'] = code
+        self.session['CheckCode'] = code
         self.write(mstream.getvalue())
 
 
@@ -36,7 +36,6 @@ class SendMsgHandler(BaseHandler):       # 向用户邮箱发送验证码，并�
     def post(self):
         email = self.get_argument('email', None)
         ret_dict = IS.emailCode(email)
-        print(ret_dict)
         if ret_dict['status'] == 'True':
             self.write(ret_dict['status'])
         else:

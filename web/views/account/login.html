@@ -7,7 +7,7 @@
 {% block body %}
 <div class="shadow">
     <div class="login-content ">
-        <form action="login" method="post">
+        <form >
             <div id="username" class="item">
                 <label><span class="red">*</span> Username:</label>
                 <input name="username" type="text" placeholder="Input your username or Email">
@@ -34,6 +34,8 @@
                     <a href="">忘记密码？</a>
                 </div>
             </div>
+            <div class="hidden info" id="info-agree"></div>
+
             <div class="login">
                 <button type="submit" >Login</button>
             </div>

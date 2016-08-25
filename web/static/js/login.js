@@ -73,7 +73,29 @@ function loginBindClick() {
         myTrigger();
         var ret = false;
         if(usernameFlag  & passwordFlag & checknumFlag){
-            ret = true;
+            // ret = true;
+            var login_info = {}
+            $(".login-content form input").each(function () {
+                var name = $(this).attr('name');
+                var value = $(this).val();
+                login_info[name] = value
+            });
+            $.ajax({
+                url:'/login',
+                type:'POST',
+                data: login_info,
+                dataType:'json',
+                success:function (arg) {
+                    console.log(arg);
+                    if (arg.status){
+                        window.location.href = '/index';
+                    }else {
+                        $.each(arg.message, function(k,v){
+                            $('.login-content form input[name="'+ k +'"]').parent().next().removeClass('hidden').text(v);
+                        })
+                    }
+                }
+            })
         }else {
             alert('您的输入有误，请重新登陆');
         }
