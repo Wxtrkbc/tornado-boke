@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>YouSpace</title>
+    <title>Melody</title>
     <link href="{{static_url('css/common.css')}}" type="text/css" rel="stylesheet">
     {% block css %} {% end %}
 </head>
 <body>
 <div class="header">
     <div class="header_container">
-        <div class="nav">
+        <div class="nav clearfix">
             <div class="logo float-l">
-                <a href="/index">YouSpace</a>
+                <a href="/index">Melody</a>
             </div>
             <div class="nav_content float-l">
                 <a href="/index">Home</a>
@@ -34,19 +34,43 @@
     </div>
 </div>
 <div class="body">
-    <div class="body_container">
+    <div class="body_container clearfix">
          {% block body %}
          {% end %}
+    </div>
+    <div class="retTop">
+
     </div>
 
 </div>
 <div class="footer">
     <div class="footer_container">
-
+        <p>
+            Posted by : &nbsp;D.Wang in 2016
+            <br>
+            Contact information :
+            <a href="https://github.com/Wxtrkbc/tornado-boke">Github</a>
+        </p>
     </div>
 </div>
 <!--<a class="back-to-head" href="javascript:scroll(0,0)"></a>-->
 <script src="{{static_url('js/jquery-2.1.4.min.js')}}"></script>
+<script>
+    $(function () {
+            window.onscroll = function () {
+                var scrollHeight = $(window).scrollTop();
+                if(scrollHeight<100){
+                    $(".retTop").addClass('hidden');
+                }else {
+                    $(".retTop").removeClass('hidden')
+                }
+            };
+
+            $(".retTop").click(function () {
+                $(window).scrollTop(0);
+            })
+        })
+</script>
 {% block js %} {% end %}
 </body>
 </html>

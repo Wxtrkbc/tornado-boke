@@ -59,16 +59,8 @@ class Article(Base):
     title = Column(String(32))
     url = Column(String(128))
     content = Column(TEXT)
+    type = Column(String(32))
 
-
-# 图片表
-class Picture(Base):
-    __tablename__ = 'picture'
-
-    nid = Column(Integer, primary_key=True, autoincrement=True)
-    user_info_id = Column(Integer, ForeignKey("userinfo.nid"))
-    ctime = Column(TIMESTAMP)
-    content = Column(String(256))  # 图片描述
 
 
 # 文章点赞表
@@ -85,21 +77,6 @@ class FavorArt(Base):
     )
 
 
-# 图片点赞表
-class FavorPic(Base):
-    __tablename__ = 'favor_pic'
-
-    nid = Column(Integer, primary_key=True, autoincrement=True)
-    user_info_id = Column(Integer, ForeignKey("userinfo.nid"))
-    picture_id = Column(Integer, ForeignKey("picture.nid"))
-    ctime = Column(TIMESTAMP)
-
-    __table_args__ = (
-        UniqueConstraint('user_info_id', 'picture_id', name='uix_uid_nid'),
-    )
-
-
-# 文章评论表
 class ArticleComment(Base):
     __tablename__ = 'art_comment'
 
@@ -112,17 +89,41 @@ class ArticleComment(Base):
     content = Column(String(150))
 
 
-# 图片评论表
-class PictureComment(Base):
-    __tablename__ = 'pic_comment'
+#  图片表
+# class Picture(Base):
+#     __tablename__ = 'picture'
+#
+#     nid = Column(Integer, primary_key=True, autoincrement=True)
+#     user_info_id = Column(Integer, ForeignKey("userinfo.nid"))
+#     ctime = Column(TIMESTAMP)
+#     content = Column(String(256))  # 图片描述
 
-    nid = Column(Integer, primary_key=True, autoincrement=True)
-    user_info_id = Column(Integer, ForeignKey("userinfo.nid"))
-    picture_id = Column(Integer, ForeignKey("picture.nid"))
-    reply_id = Column(Integer, ForeignKey("pic_comment.nid"), nullable=True, default=None)
-    up = Column(Integer)
-    ctime = Column(TIMESTAMP)
-    content = Column(String(150))
+
+# 图片点赞表
+# class FavorPic(Base):
+#     __tablename__ = 'favor_pic'
+#
+#     nid = Column(Integer, primary_key=True, autoincrement=True)
+#     user_info_id = Column(Integer, ForeignKey("userinfo.nid"))
+#     picture_id = Column(Integer, ForeignKey("picture.nid"))
+#     ctime = Column(TIMESTAMP)
+#
+#     __table_args__ = (
+#         UniqueConstraint('user_info_id', 'picture_id', name='uix_uid_nid'),
+#     )
+
+
+# # 图片评论表
+# class PictureComment(Base):
+#     __tablename__ = 'pic_comment'
+#
+#     nid = Column(Integer, primary_key=True, autoincrement=True)
+#     user_info_id = Column(Integer, ForeignKey("userinfo.nid"))
+#     picture_id = Column(Integer, ForeignKey("picture.nid"))
+#     reply_id = Column(Integer, ForeignKey("pic_comment.nid"), nullable=True, default=None)
+#     up = Column(Integer)
+#     ctime = Column(TIMESTAMP)
+#     content = Column(String(150))
 
 
 # 相互关注中间表

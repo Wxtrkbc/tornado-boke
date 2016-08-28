@@ -13,3 +13,9 @@ class IndexHandler(BaseHandler):
     def get(self):
 
         self.render('home/index.html')
+
+
+class articleHandler(BaseHandler):
+    def get(self, pid):
+        # print(pid)
+        self.render('articles/{}.html'.format(pid))

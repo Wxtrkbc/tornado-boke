@@ -1,13 +1,15 @@
 {% extends '../base/layout.html' %}
 
 {% block css %}
-<link href="{{static_url('plugins/jquery.bxslider.css')}}" rel="stylesheet">
+<link href="{{static_url('plugins/bxslider/jquery.bxslider.css')}}" rel="stylesheet" type="text/css">
+<link href="{{static_url('css/index.css')}}" rel="stylesheet" type="text/css">
 {% end %}
 
 <!--Each day wake up and ask yourself what will make you feel most alive that day.-->
 <!--“Be who you are and say what you feel, because those who mind don't matter and those who matter don't mind.”-->
 <!--“Don't let small minds convince you that your dreams are too big.”-->
 <!--“If you spend too much time thinking about a thing, you'll never get it done.”-->
+<!--“There is only one person who could ever make you happy, and that person is you.”-->
 
 {% block body %}
 <div class="top-slider">
@@ -23,16 +25,81 @@
     </ul>
 </div>
 
-<div class="picture-left float-l">
-    <div class="picture-container">
-
+<!--<div class="picture">-->
+    <!--<div class="picture-container">-->
+        <!--<div class="item clearfix">-->
+            <!--<div class="img ">-->
+                <!--<img height="180px" width="180px" src="{{static_url('upload/stock-photo-92524253.jpg')}}">-->
+            <!--</div>-->
+            <!--<div class="content">-->
+                <!--<div class="title">-->
+                    <!--<a href="javascript:void(0);">-->
+                        <!--Fantastic places and natural formations on good old Earth-->
+                    <!--</a>-->
+                <!--</div>-->
+                <!--<div class="content-body">-->
+                    <!--<p>-->
+                        <!--Scroll down to see amazing geological wonders, unique plants,-->
+                        <!--trees, and alien-looking landscapes. This page is constantly updated,-->
+                        <!--so make sure to bookmark it. For various animals, fishes, and insects,-->
+                        <!--see our "Animals"-->
+                    <!--</p>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;<div class="comment">&ndash;&gt;-->
+            <!--&lt;!&ndash;<button>Favor</button>&ndash;&gt;-->
+            <!--&lt;!&ndash;<button>commnets</button>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<div class="article">
+    <div class="post_header">
+        <h1 class="post_title">
+            <a class="post_link" href="javascript:void(0);">
+                 Python全栈开发之1、输入输出与流程控制
+            </a>
+        </h1>
+        <div class="post_meta">
+            <span class="post_time">发表于2016年08月14日</span>
+            <span class="post_category">
+                | 分类于
+                <span>
+                    <a class="post_category_name" href="javascript:void(0);">
+                        <span>Python全栈开发</span>
+                    </a>
+                </span>
+            </span>
+            <span class="post_comments_count">
+                 &nbsp;|&nbsp;
+                <a href="javascript:void(0);">1条评论</a>
+            </span>
+        </div>
+    </div>
+    <div class="post_body">
+        <p>
+            python是吉多·范罗苏姆发明的一种面向对象的脚本语言，可能有些人不知道面向对象和脚本具体是什么意思，
+            但是对于一个初学者来说，现在并不需要明白。大家都知道，当下全栈工程师的概念很火，
+            而Python是一种全栈的开发语言，所以你如果能学好Python，那么前端，后端，测试，大数据分析，
+            爬虫等这些工作你都能胜任。
+        </p>
+        <div class="post_more_link">
+            <a class="btn" href="javascript:void(0);">
+                阅读全文 »
+            </a>
+        </div>
+        <div class="post_footer">
+            <div class="post_eof"></div>
+        </div>
     </div>
 </div>
+
+
 
 {% end %}
 
 {% block js %}
-<script src="{{static_url('plugins/jquery.bxslider.js')}}"></script>
+<script src="{{static_url('plugins/bxslider/jquery.bxslider.js')}}"></script>
 <script>
     $(document).ready(function () {
         $('.bxslider').bxSlider({
