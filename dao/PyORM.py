@@ -6,6 +6,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from dao import SqlAchemyOrm as ORM
 from sqlalchemy import and_, or_
+from sqlalchemy.sql import func
+
 
 # 用来连接数据库
 class DBConnection:
@@ -45,7 +47,7 @@ class UserInfoDao:
             or_(
                 and_(ORM.UserInfo.username == user, ORM.UserInfo.password == pwd),
                 and_(ORM.UserInfo.email == user, ORM.UserInfo.password == pwd),
-                )
+            )
         ).first()
 
     def insetUser(self, username, password, email, ctime):
@@ -96,6 +98,72 @@ class SendMsgDao:
         return self.conn.query(ORM.SendMsg).filter(ORM.SendMsg.email == email,
                                                    ORM.SendMsg.code == code,
                                                    ORM.SendMsg.ctime > time).count()
+
+    def close(self):
+        self.db_conn.close()
+
+
+class ArticleCategoryDao:
+    def __init__(self):
+        self.db_conn = DBConnection()
+        self.conn = self.db_conn.connect()
+
+    def fetchCount(self):
+        return self.conn.query(ORM.ArticleCategory.nid).count()
+
+    # def fetchCategory(self, name):
+    #     return self.conn.query(ORM.ArticleCategory.name,
+    #                            ORM.ArticleCategory.nid,
+    #                            ORM.Article.type_id,
+    #                            ).filter(and_(ORM.ArticleCategory.nid == ORM.Article.type_id,
+    #                                          ORM.ArticleCategory.name == name)).count()
+
+    def fetchCategory(self, ):
+        return self.conn.query(ORM.ArticleCategory.name,
+                               func.sum(ORM.Article.type_id),
+                               ).filter(ORM.ArticleCategory.nid == ORM.Article.type_id).group_by(
+            ORM.Article.type_id).all()
+
+    def close(self):
+        self.db_conn.close()
+
+
+class ArticleDao:
+    def __init__(self):
+        self.db_conn = DBConnection()
+        self.conn = self.db_conn.connect()
+
+    def fetchArticleCount(self):
+        return self.conn.query(ORM.Article.nid).count()
+
+    def fetchArticles(self):
+        return self.conn.query(ORM.Article.url, ORM.Article.title, ORM.Article.ctime).order_by(ORM.Article.ctime.desc()).all()
+
+    def fetchHotArticle(self):
+        return self.conn.query(ORM.Article.url, ORM.Article.title).order_by(ORM.Article.pageviews.desc(),
+                                                                            ORM.Article.ctime.desc())[0:8]
+
+    def updatePageview(self, nid):
+        self.conn.query(ORM.Article).filter(ORM.Article.nid == nid).update({'pageviews': ORM.Article.pageviews+1})
+        self.commit()
+
+    def fetchArticleById(self, nid):
+        return self.conn.query(ORM.Article, ORM.ArticleCategory).filter(and_(
+            ORM.Article.nid == nid,
+            ORM.Article.type_id == ORM.ArticleCategory.nid
+        )).first()
+
+    def close(self):
+        self.db_conn.close()
+
+
+class ArticleCommentDao:
+    def __init__(self):
+        self.db_conn = DBConnection()
+        self.conn = self.db_conn.connect()
+
+    def getCountsByid(self, pid):
+        return self.conn.query(ORM.ArticleComment.nid).filter(ORM.ArticleComment.article_id == pid).count()
 
     def close(self):
         self.db_conn.close()

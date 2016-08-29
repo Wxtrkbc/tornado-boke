@@ -49,6 +49,13 @@ class UserInfo(Base):
         return "%s-%s-%s" % (self.nid, self.username, self.email)
 
 
+# 文章类型表
+class ArticleCategory(Base):
+    __tablename__ = 'article_category'
+    nid = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(32))
+
+
 # 文章表
 class Article(Base):
     __tablename__ = 'article'
@@ -59,8 +66,8 @@ class Article(Base):
     title = Column(String(32))
     url = Column(String(128))
     content = Column(TEXT)
-    type = Column(String(32))
-
+    type_id = Column(Integer, ForeignKey('article_category.nid'))
+    pageviews = Column(Integer)
 
 
 # 文章点赞表
@@ -89,7 +96,7 @@ class ArticleComment(Base):
     content = Column(String(150))
 
 
-#  图片表
+# 图片表
 # class Picture(Base):
 #     __tablename__ = 'picture'
 #
@@ -128,7 +135,6 @@ class ArticleComment(Base):
 
 # 相互关注中间表
 class Follow(Base):
-
     __tablename__ = 'follows'
     nid = Column(Integer, primary_key=True, autoincrement=True)
     follower_id = Column(Integer, ForeignKey("userinfo.nid"))
@@ -142,6 +148,7 @@ def init_db():
 
 def drop_db():
     Base.metadata.drop_all(ENGINE)
+
 
 #
 # def session():

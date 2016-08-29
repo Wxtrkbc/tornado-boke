@@ -26,3 +26,27 @@ class SendMsgFactory:
     @staticmethod
     def get_dao():
         return SendMsgFactory.__dao
+
+
+class ArticleCategoryFactory:
+    __dao = PyORM.ArticleCategoryDao()
+
+    @staticmethod
+    def set_dao(dao):
+        ArticleCategoryFactory.__dao = dao
+
+    @staticmethod
+    def get_dao():
+        return ArticleCategoryFactory.__dao
+
+
+class ArticleFactory:
+    __dao = PyORM.ArticleDao()
+
+    @staticmethod
+    def set_dao(dao):
+        ArticleFactory.__dao = dao
+
+    @staticmethod
+    def get_dao():
+        return ArticleFactory.__dao

@@ -24,7 +24,9 @@ application = tornado.web.Application([
     (r"/check_email", identity.CheckEmailHandler),    # 检查邮箱是否存在
     (r"/send_msg", identity.SendMsgHandler),          # 向用户注册邮箱发送验证码
 
-    (r'/articles/(?P<pid>\d*)', home.articleHandler),
+    (r'/articles/(?P<pid>\d*)', home.articleHandler),   # 相应文章
+    (r'/categories', home.categoriesHandler),              # 分类
+    (r'/contents/(?P<page>\d*)', home.contentsHandler),    # 目录
 ], **settings)
 
 

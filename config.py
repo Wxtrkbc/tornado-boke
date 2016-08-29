@@ -9,7 +9,7 @@ PY_MYSQL_CONN_DICT = {      # pymsql 连接信息
     "db": 'myboke'
 }
 
-SQL_ALCHEMY_CONN_STR = "mysql+pymysql://root:123@127.0.0.1:3306/myboke"
+SQL_ALCHEMY_CONN_STR = "mysql+pymysql://root:123@127.0.0.1:3306/myboke?charset=utf8"
 
 SQL_ALCHEMY_MAX_OVERFLOW = 1
 
