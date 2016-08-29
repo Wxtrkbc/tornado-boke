@@ -1,0 +1,44 @@
+{% extends 'base/layout.html' %}
+
+{% block css %}
+<link href="{{static_url('css/categories.css')}}" rel="stylesheet" type="text/css">
+{% end %}
+
+
+{% block body %}
+    <div class="category_all_page">
+        <div class="category_title">
+            目前共设计{{count}}个分类
+        </div>
+        <div class="category_all">
+            <ul class="category_list">
+                {% for item in category_info %}
+                <li class="category_list_item">
+                    <a class="category_list_link" href="{{item[1]}}">
+                        {{item[0]}}
+                    </a>
+                    <span class="category_list_count">
+                        ({{item[2]}})
+                    </span>
+                </li>
+                {% end %}
+            </ul>
+        </div>
+        <p class="hot_articles">热点文章</p>
+        <div class="hot_articles_list">
+            {% for article in hot_articles %}
+            <li>
+                <a target="_blank" href="{{article[0]}}">
+                    {{article[1]}}
+                </a>
+            </li>
+            {% end %}
+        </div>
+    </div>
+{% end %}
+
+{% block js %}
+
+<script>
+</script>
+{% end %}

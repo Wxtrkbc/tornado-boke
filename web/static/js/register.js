@@ -181,7 +181,7 @@ function registerBindClick() {
                 dataType:'json',
                 success:function (arg) {
                     if (arg.status){
-                        window.location.href = '/index';
+                        window.location.href = '/index/';
                     }else {
                         $.each(arg.message, function(k,v){
                             $('.register-content form input[name="'+ k +'"]').parent().next().removeClass('hidden').text(v);

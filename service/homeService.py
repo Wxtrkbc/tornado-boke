@@ -17,13 +17,17 @@ def getHotArticles():
     return article.fetchHotArticle()
 
 
-def getArticlesCount():
+def getArticlesCount(pid=None):
     article = ArticleFactory.get_dao()
-    return article.fetchArticleCount()
+    return article.fetchArticleCount(pid)
 
-def getArticles():
+def getArticles(pid=None):
     article = ArticleFactory.get_dao()
-    return article.fetchArticles()
+    return article.fetchArticles(pid)
+
+def getAll():
+    article = ArticleFactory.get_dao()
+    return article.fetchAll()
 
 def updatePageviews(nid):
     article = ArticleFactory.get_dao()
@@ -34,4 +38,7 @@ def getArticleById(nid):
     article = ArticleFactory.get_dao()
     return article.fetchArticleById(nid)
 
+
 def getArticleCommnet(pid):
+    obj = ArticleCommentFactory.get_dao()
+    return obj.getCountsByid(pid)

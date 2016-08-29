@@ -11,12 +11,12 @@
     <div class="header_container">
         <div class="nav clearfix">
             <div class="logo float-l">
-                <a href="/index">Melody</a>
+                <a href="/index/">Melody</a>
             </div>
             <div class="nav_content float-l">
-                <a href="/index">Home</a>
-                <a href="javascript:void(0)">Picture</a>
-                <a href="javascript:void(0)">Articles</a>
+                <a href="/index/">主页</a>
+                <a href="/contents/">目录</a>
+                <a href="/categories">分类</a>
             </div>
             {% if handler.session['is_login'] %}
                 <div>
@@ -26,8 +26,8 @@
                 </div>
             {% else %}
                 <div class="account float-r">
-                    <a href="/login">Login</a>
-                    <a href="/register">Register</a>
+                    <a href="/login">登陆</a>
+                    <a href="/register">注册</a>
                 </div>
             {% end %}
         </div>

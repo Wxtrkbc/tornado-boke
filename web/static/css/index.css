@@ -1,32 +1,7 @@
 
-.picture{
-    margin-top: 30px;
-}
-.picture-container .item .img{
-    display: inline-block;
-    float: left;
-}
-
-.picture-container .item .content{
-    display: inline-block;
-    width: 500px;
-    float: left;
-    margin-left: 10px;
-}
-
-.picture-container .item .content .title{
-    margin: 10px 0;
-}
-
-.picture-container .item .content a{
-    font-size: 17px;
-    font-weight: bold;
-}
-
-
-
 .article{
-    margin: 0 10px;
+    margin: 0 100px;
+    margin-bottom: 60px;
 }
 
 .post_header{
@@ -98,4 +73,30 @@
 .post_more_link a:hover{
     color: black;
     border-bottom: 2px solid black;
+}
+
+
+.page{
+    /*border-top:1px solid #eee;*/
+    /*margin-top: 70px;*/
+    margin-left: 100px;
+    margin-bottom: 50px;
+    font-size: 12px;
+}
+.page li {
+    display: inline-block;
+}
+li a {
+    display: inline-block;
+    padding: 0 15px;
+    color: #555;
+}
+
+li .active{
+    background-color: #ccc;
+}
+
+.page .page-info{
+    display: inline-block;
+    margin-left: 50px;
 }

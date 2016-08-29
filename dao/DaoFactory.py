@@ -50,3 +50,15 @@ class ArticleFactory:
     @staticmethod
     def get_dao():
         return ArticleFactory.__dao
+
+
+class ArticleCommentFactory:
+    __dao = PyORM.ArticleCommentDao()
+
+    @staticmethod
+    def set_dao(dao):
+        ArticleCommentFactory.__dao = dao
+
+    @staticmethod
+    def get_dao():
+        return ArticleCommentFactory.__dao

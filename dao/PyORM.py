@@ -118,10 +118,16 @@ class ArticleCategoryDao:
     #                            ).filter(and_(ORM.ArticleCategory.nid == ORM.Article.type_id,
     #                                          ORM.ArticleCategory.name == name)).count()
 
-    def fetchCategory(self, ):
+    def fetchCategory(self):
+        # return self.conn.query(ORM.ArticleCategory.name,
+        #                        func.sum(ORM.Article.type_id),
+        #                        ).filter(ORM.ArticleCategory.nid == ORM.Article.type_id).group_by(
+        #     ORM.Article.type_id).all()
+
         return self.conn.query(ORM.ArticleCategory.name,
-                               func.sum(ORM.Article.type_id),
-                               ).filter(ORM.ArticleCategory.nid == ORM.Article.type_id).group_by(
+                               ORM.ArticleCategory.url,
+                               func.count(ORM.Article.type_id),
+                               ).join(ORM.Article, isouter=True).group_by(
             ORM.Article.type_id).all()
 
     def close(self):
@@ -133,18 +139,31 @@ class ArticleDao:
         self.db_conn = DBConnection()
         self.conn = self.db_conn.connect()
 
-    def fetchArticleCount(self):
-        return self.conn.query(ORM.Article.nid).count()
+    def fetchArticleCount(self, pid):
+        if not pid:
+            return self.conn.query(ORM.Article.nid).count()
+        else:
+            return self.conn.query(ORM.Article.nid).filter(ORM.Article.type_id == pid).count()
 
-    def fetchArticles(self):
-        return self.conn.query(ORM.Article.url, ORM.Article.title, ORM.Article.ctime).order_by(ORM.Article.ctime.desc()).all()
+    def fetchArticles(self, pid):
+        if not pid:
+            return self.conn.query(ORM.Article.url, ORM.Article.title, ORM.Article.ctime).order_by(
+                ORM.Article.ctime.desc()).all()
+        else:
+            # return self.conn.query(ORM.Article.url, ORM.Article.title, ORM.Article.ctime).filter(
+            #     ORM.Article.type_id == pid).order_by(ORM.Article.ctime.desc()).all()
+
+            return self.conn.query(ORM.Article.url, ORM.Article.title, ORM.Article.ctime,
+                                   ORM.ArticleCategory.name).filter(and_(
+                                    ORM.Article.type_id == pid,
+                                    ORM.Article.type_id == ORM.ArticleCategory.nid)).order_by(ORM.Article.ctime.desc()).all()
 
     def fetchHotArticle(self):
         return self.conn.query(ORM.Article.url, ORM.Article.title).order_by(ORM.Article.pageviews.desc(),
                                                                             ORM.Article.ctime.desc())[0:8]
 
     def updatePageview(self, nid):
-        self.conn.query(ORM.Article).filter(ORM.Article.nid == nid).update({'pageviews': ORM.Article.pageviews+1})
+        self.conn.query(ORM.Article).filter(ORM.Article.nid == nid).update({'pageviews': ORM.Article.pageviews + 1})
         self.commit()
 
     def fetchArticleById(self, nid):
@@ -152,6 +171,14 @@ class ArticleDao:
             ORM.Article.nid == nid,
             ORM.Article.type_id == ORM.ArticleCategory.nid
         )).first()
+
+    def fetchAll(self):
+        return self.conn.query(
+            ORM.Article,
+            ORM.ArticleCategory.name,
+            ORM.ArticleCategory.url
+        ).filter(ORM.Article.type_id == ORM.ArticleCategory.nid).order_by(
+            ORM.Article.ctime.desc()).all()
 
     def close(self):
         self.db_conn.close()

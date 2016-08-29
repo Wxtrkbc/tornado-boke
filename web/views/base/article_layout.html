@@ -1,16 +1,42 @@
 {% extends 'layout.html' %}
 
-{% block css %}
-
-{% end %}
-
 
 {% block body %}
+<div class="article">
+    <div class="container">
+        <div class="post_header">
+            <h1 class="post_title">
+                <a class="post_link" href="{{ret[0].url}}">
+                    {{ret[0].title}}
+                </a>
+            </h1>
+            <div class="post_meta">
+                <span class="post_time"></span>
+                <span class="post_category">
+                    | 分类于
+                    <span>
+                        <a class="post_category_name" href="{{ret[1].url}}">
+                            <span>{{ret[1].name}}</span>
+                        </a>
+                    </span>
+                </span>
+                <span>&nbsp;|&nbsp;共有{{ret[0].pageviews}}人浏览本文</span>
+                <span class="post_comments_count">
+                     &nbsp;|&nbsp;
+                    <a href="javascript:void(0);">{{count_comments}}条评论</a>
+                </span>
+            </div>
+        </div>
+        <div class="post_body">
+            {% block post_body %}
+            {% end %}
+        </div>
+        <div class="post_comments">
+            <div>
 
-{% end %}
+            </div>
+        </div>
+    </div>
 
-{% block js %}
-
-<script>
-</script>
+</div>
 {% end %}

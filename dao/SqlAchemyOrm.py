@@ -54,6 +54,7 @@ class ArticleCategory(Base):
     __tablename__ = 'article_category'
     nid = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(32))
+    url = Column(String(32))
 
 
 # 文章表

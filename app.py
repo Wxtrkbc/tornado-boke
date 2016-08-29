@@ -16,7 +16,7 @@ settings = {
 }
 
 application = tornado.web.Application([
-    (r"/index", home.IndexHandler),
+    (r"/index/(?P<page>\d*)", home.IndexHandler),
     (r"/register", account.RegisterHandler),
     (r"/login", account.LoginHandler),
     (r"/check_code", identity.CheckCodeHandler),      # 随机验证码
@@ -27,6 +27,9 @@ application = tornado.web.Application([
     (r'/articles/(?P<pid>\d*)', home.articleHandler),   # 相应文章
     (r'/categories', home.categoriesHandler),              # 分类
     (r'/contents/(?P<page>\d*)', home.contentsHandler),    # 目录
+
+    (r'/categ/(?P<pid>\d*)/(?P<page>\d*)', home.categHandler),    # 分类目录
+
 ], **settings)
 
 

@@ -100,8 +100,7 @@ a{
 .nav .nav_content a{
     display: inline-block;
     height: 30px;
-    width: 75px;
-    margin-right: 10px;
+    width: 55px;
 }
 .nav .nav_content a:hover{
     color: blue;
