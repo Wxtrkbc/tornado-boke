@@ -5,6 +5,7 @@ import tornado.web
 from web.controllers import home
 from web.controllers import account
 from web.controllers import identity
+from web.commons import uimethods as mt
 import tornado.autoreload
 settings = {
     'template_path': 'web/views',
@@ -13,12 +14,14 @@ settings = {
     "cookie_secret": 'wxtrkbc',
     'autoreload': True,
     'debug': True,
+    'ui_methods': mt,
 }
 
 application = tornado.web.Application([
     (r"/index/(?P<page>\d*)", home.IndexHandler),
     (r"/register", account.RegisterHandler),
     (r"/login", account.LoginHandler),
+    (r"/about", home.AboutHandler),
     (r"/check_code", identity.CheckCodeHandler),      # 随机验证码
     (r"/check_username", identity.CheckUserHandler),  # 检查用户名是否存在
     (r"/check_email", identity.CheckEmailHandler),    # 检查邮箱是否存在
@@ -29,6 +32,9 @@ application = tornado.web.Application([
     (r'/contents/(?P<page>\d*)', home.contentsHandler),    # 目录
 
     (r'/categ/(?P<pid>\d*)/(?P<page>\d*)', home.categHandler),    # 分类目录
+
+    (r'/test', home.testHandler),    # test
+
 
 ], **settings)
 

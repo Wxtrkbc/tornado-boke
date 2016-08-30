@@ -173,12 +173,21 @@ class ArticleDao:
         )).first()
 
     def fetchAll(self):
+        # return self.conn.query(
+        #     ORM.Article,
+        #     ORM.ArticleCategory.name,
+        #     ORM.ArticleCategory.url,
+        #     func.count(ORM.ArticleComment.nid),
+        # ).join(ORM.ArticleComment, ORM.Article.nid == ORM.ArticleComment.article_id).filter(and_(
+        #     ORM.Article.type_id == ORM.ArticleCategory.nid,
+        # )).group_by(ORM.ArticleComment.nid).order_by(
+        #     ORM.Article.ctime.desc()).all()
+
         return self.conn.query(
             ORM.Article,
             ORM.ArticleCategory.name,
-            ORM.ArticleCategory.url
-        ).filter(ORM.Article.type_id == ORM.ArticleCategory.nid).order_by(
-            ORM.Article.ctime.desc()).all()
+            ORM.ArticleCategory.url,
+        ).filter(ORM.Article.type_id == ORM.ArticleCategory.nid).order_by(ORM.Article.ctime.desc()).all()
 
     def close(self):
         self.db_conn.close()
@@ -191,6 +200,18 @@ class ArticleCommentDao:
 
     def getCountsByid(self, pid):
         return self.conn.query(ORM.ArticleComment.nid).filter(ORM.ArticleComment.article_id == pid).count()
+
+    def getCommentsById(self, pid):
+        return self.conn.query(
+            ORM.ArticleComment.nid,
+            ORM.ArticleComment.content,
+            ORM.ArticleComment.reply_id,
+            ORM.UserInfo.username,
+            ORM.ArticleComment.ctime,
+            ORM.ArticleComment.user_info_id,
+            ORM.ArticleComment.article_id,
+
+        ).join(ORM.UserInfo).filter(ORM.ArticleComment.article_id == pid).all()
 
     def close(self):
         self.db_conn.close()

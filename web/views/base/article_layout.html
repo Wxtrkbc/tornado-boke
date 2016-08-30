@@ -11,7 +11,7 @@
                 </a>
             </h1>
             <div class="post_meta">
-                <span class="post_time"></span>
+                <span class="post_time">{{ret[0].ctime}}</span>
                 <span class="post_category">
                     | 分类于
                     <span>
@@ -31,12 +31,22 @@
             {% block post_body %}
             {% end %}
         </div>
-        <div class="post_comments">
-            <div>
 
+        <div class="post_comments">
+
+            <div class="comment_list">
+                {% raw tree(comment) %}
+            </div>
+            <div class="comment_box clearfix">
+                <textarea ></textarea>
+                <a href="javascript:void(0);">评论</a>
             </div>
         </div>
     </div>
 
 </div>
 {% end %}
+
+
+
+

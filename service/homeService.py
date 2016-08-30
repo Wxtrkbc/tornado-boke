@@ -39,6 +39,11 @@ def getArticleById(nid):
     return article.fetchArticleById(nid)
 
 
-def getArticleCommnet(pid):
+def getArticleCommnet(pid):     # 获取评论的数量
     obj = ArticleCommentFactory.get_dao()
     return obj.getCountsByid(pid)
+
+
+def getCommnet(pid):                # 获取该文章的所有评论信息
+    obj = ArticleCommentFactory.get_dao()
+    return obj.getCommentsById(pid)

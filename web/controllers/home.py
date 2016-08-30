@@ -6,7 +6,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from commons.baseHandler import BaseHandler
-
+from commons import comment_tree
 from service import homeService as HS
 from web.commons.pager import Pagenation
 
@@ -20,11 +20,18 @@ class IndexHandler(BaseHandler):
         self.render('home/index.html', str_page=str_page, ret=content_list)
 
 
+class AboutHandler(BaseHandler):
+    def get(self):
+        self.render('about.html')
+
+
 class articleHandler(BaseHandler):
     def get(self, pid):
         ret = HS.getArticleById(pid)
-        count_comments = HS.getArticleCommnet(pid)
-        self.render('articles/{}.html'.format(pid), ret=ret, count_comments=count_comments)
+        count_comments = HS.getArticleCommnet(pid)  # 文章评论数量
+        comment_list = HS.getCommnet(pid)
+        comment = comment_tree.build_tree(comment_list)
+        self.render('articles/{}.html'.format(pid), ret=ret, count_comments=count_comments,comment=comment)
 
 
 
@@ -35,6 +42,7 @@ class categoriesHandler(BaseHandler):
         #     print(item[0], item[1])
         # print(count, ret, 111)
         hot_articles = HS.getHotArticles()
+
         # print(hot_articles)
         self.render('categories.html', count=count, category_info=ret, hot_articles=hot_articles)
 
@@ -59,3 +67,9 @@ class categHandler(BaseHandler):
         content_list = HS.getArticles(pid)[page_obj.start_item:page_obj.end_item]
         content_str = content_list[0][3]
         self.render('contents.html', str_page=str_page, content_str=content_str, content_list=content_list, all_count=all_count)
+
+
+
+class testHandler(BaseHandler):
+    def get(self):
+        self.render('text.html')

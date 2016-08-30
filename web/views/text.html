@@ -1,39 +1,44 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--<meta charset="UTF-8">-->
+<!--<title>Title</title>-->
+<!--<script  src="../static/plugins/syntaxhighlighter/scripts/shCore.js"></script>-->
+<!--<script src="../static/plugins/syntaxhighlighter/scripts/shBrushPython.js"></script>-->
+<!--<link href="../static/plugins/syntaxhighlighter/styles/shCoreMidnight.css" rel="stylesheet" type="text/css">-->
+<!--</head>-->
+
+<!--<body>-->
+<!--<div class="admin">-->
+<!--&lt;!&ndash;collapse: true;&ndash;&gt;-->
+<!--<h1>    hello</h1>-->
+<!--<pre class="brush: python; toolbar: false;">-->
+<!--a = 1-->
+<!--if a >= 0:-->
+<!--print(a)-->
+<!--else:-->
+<!--print(-a)-->
+<!--</pre>-->
+
+<!--<script src="../static/js/jquery-2.1.4.min.js"></script>-->
+<!--<script>-->
+<!--SyntaxHighlighter.all();-->
+<!--</script>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script  src="../static/plugins/syntaxhighlighter/scripts/shCore.js"></script>
-    <script src="../static/plugins/syntaxhighlighter/scripts/shBrushPython.js"></script>
-    <link href="../static/plugins/syntaxhighlighter/styles/shCoreMidnight.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 <div class="admin">
-    <!--collapse: true;-->
-    <pre class="brush: python; toolbar: false;">
-        def get(self):
-                self.render('account/login.html')
 
-            def post(self):
-                rep = BaseResponse()
-                form = accountForm.LoginForm()
-                if form.valid(self):
-                    if form._value_dict['check_code'].lower() != self.session["CheckCode"].lower():
-                        rep.message = {'check_code': '验证码错误'}
-                        self.write(json.dumps(rep.__dict__))
-                        return
-                    user_obj = AS.login(form)
-                    if not user_obj:
-                        rep.message = {'username': '用户名邮箱或密码错误'}
-                        self.write(json.dumps(rep.__dict__))
-                        return
-        </pre>
-
-<script src="../static/js/jquery-2.1.4.min.js"></script>
-<script>
-    SyntaxHighlighter.all();
-</script>
 </div>
 </body>
 </html>
