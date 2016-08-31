@@ -211,7 +211,19 @@ class ArticleCommentDao:
             ORM.ArticleComment.user_info_id,
             ORM.ArticleComment.article_id,
 
-        ).join(ORM.UserInfo).filter(ORM.ArticleComment.article_id == pid).all()
+        ).join(ORM.UserInfo).filter(ORM.ArticleComment.article_id == pid).order_by(ORM.ArticleComment.ctime.asc()).all()
+
+    def setComment(self, user_id, article_id, reply_id, content, ctime):
+        obj = ORM.ArticleComment(
+            content=content,
+            reply_id=reply_id,
+            article_id=article_id,
+            user_info_id=user_id,
+            ctime=ctime,
+        )
+        self.conn.add(obj)
+        self.conn.commit()
+
 
     def close(self):
         self.db_conn.close()

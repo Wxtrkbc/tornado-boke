@@ -54,11 +54,11 @@
         </p>
     </div>
 </div>
-<!--<a class="back-to-head" href="javascript:scroll(0,0)"></a>-->
 <script src="{{static_url('js/jquery-2.1.4.min.js')}}"></script>
 <script>
     $(function () {
-            window.onscroll = function () {
+//            返回顶部
+            window.onscroll = function () {                 
                 var scrollHeight = $(window).scrollTop();
                 if(scrollHeight<100){
                     $(".retTop").addClass('hidden');
@@ -71,6 +71,7 @@
                 $(window).scrollTop(0);
             })
         })
+
 </script>
 {% block js %} {% end %}
 </body>

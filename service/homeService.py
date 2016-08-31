@@ -12,12 +12,12 @@ def category():
     return (count, category_info)
 
 
-def getHotArticles():
+def getHotArticles():                       # 热点文章
     article = ArticleFactory.get_dao()
     return article.fetchHotArticle()
 
 
-def getArticlesCount(pid=None):
+def getArticlesCount(pid=None):            # 根据文章id获取文章评论数量
     article = ArticleFactory.get_dao()
     return article.fetchArticleCount(pid)
 
@@ -47,3 +47,9 @@ def getArticleCommnet(pid):     # 获取评论的数量
 def getCommnet(pid):                # 获取该文章的所有评论信息
     obj = ArticleCommentFactory.get_dao()
     return obj.getCommentsById(pid)
+
+
+def setComment(user_id, article_id, reply_id, content):
+    ctime = datetime.datetime.now()
+    obj = ArticleCommentFactory.get_dao()
+    return obj.setComment(user_id, article_id, reply_id, content, ctime)

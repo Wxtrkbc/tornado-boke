@@ -7,6 +7,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from commons.baseHandler import BaseHandler
 from commons import comment_tree
+from commons import uimethods
 from service import homeService as HS
 from web.commons.pager import Pagenation
 
@@ -24,17 +25,17 @@ class AboutHandler(BaseHandler):
     def get(self):
         self.render('about.html')
 
-
+# 文章页
 class articleHandler(BaseHandler):
     def get(self, pid):
         ret = HS.getArticleById(pid)
         count_comments = HS.getArticleCommnet(pid)  # 文章评论数量
         comment_list = HS.getCommnet(pid)
         comment = comment_tree.build_tree(comment_list)
-        self.render('articles/{}.html'.format(pid), ret=ret, count_comments=count_comments,comment=comment)
+        self.render('articles/{}.html'.format(pid), ret=ret, count_comments=count_comments, comment=comment)
 
 
-
+# 分类主页
 class categoriesHandler(BaseHandler):
     def get(self):
         count, ret = HS.category()
@@ -47,6 +48,7 @@ class categoriesHandler(BaseHandler):
         self.render('categories.html', count=count, category_info=ret, hot_articles=hot_articles)
 
 
+# 总的目录
 class contentsHandler(BaseHandler):
     def get(self, page=1):
         all_count = HS.getArticlesCount()
@@ -59,6 +61,8 @@ class contentsHandler(BaseHandler):
         self.render('contents.html', str_page=str_page, content_str=content_str, content_list=content_list, all_count=all_count)
 
 
+
+# 分类目录
 class categHandler(BaseHandler):
     def get(self, pid=1, page=1):
         all_count = HS.getArticlesCount(pid)
@@ -73,3 +77,24 @@ class categHandler(BaseHandler):
 class testHandler(BaseHandler):
     def get(self):
         self.render('text.html')
+
+
+
+class commentHandler(BaseHandler):
+    def post(self):
+        article_id = self.get_argument('article_id', None)
+        content = self.get_argument('content', None)
+        reply_id = self.get_argument('reply_id', None)
+        if reply_id == 'None':
+            reply_id = None
+        # user_id = self.session['user_info']['nid']
+        user_id = 1
+        HS.setComment(user_id, article_id, reply_id, content)  # 将评论数据插入到数据库
+
+        comment_list = HS.getCommnet(article_id)                      # 从数据库将数据取出来到前端渲染
+        comment = comment_tree.build_tree(comment_list)
+        ret = uimethods.tree('_', comment)
+
+        self.write(ret)
+
+

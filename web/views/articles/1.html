@@ -1,9 +1,6 @@
 {% extends '../base/article_layout.html' %}
 
-{% block css %}
-<link href="{{static_url('css/article_layout.css')}}" rel="stylesheet" type="text/css">
-<link href="../../static/plugins/syntaxhighlighter/styles/shCoreMidnight.css" rel="stylesheet" type="text/css">
-{% end %}
+
 
 {% block post_body %}
     <p>
@@ -230,8 +227,4 @@
 {% end %}
 
 
-{% block js %}
-    <script  src="../../static/plugins/syntaxhighlighter/scripts/shCore.js"></script>
-    <script src="../../static/plugins/syntaxhighlighter/scripts/shBrushPython.js"></script>
-    <script>SyntaxHighlighter.all();</script>
-{% end %}
+

@@ -32,6 +32,7 @@ application = tornado.web.Application([
     (r'/contents/(?P<page>\d*)', home.contentsHandler),    # 目录
 
     (r'/categ/(?P<pid>\d*)/(?P<page>\d*)', home.categHandler),    # 分类目录
+    (r'/send_comment', home.commentHandler),        # 处理发布的评论
 
     (r'/test', home.testHandler),    # test
 
