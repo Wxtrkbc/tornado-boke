@@ -29,10 +29,11 @@ def register(form, limit_day, rep, current_date):
     form._value_dict['ctime'] = current_date    # 插入一条用户数据
     form._value_dict.pop('email_code')
     form._value_dict.pop('check_password')
-    userInfo.insetUser(**form._value_dict)
+    last_nid = userInfo.insetUser(**form._value_dict)
     userInfo.close()
     sendMsgObj.close()
     rep.status = True
+    rep.message['last_nid'] = last_nid
     return rep
 
     # 这里可以将以前发送验证码的数据从数据库卸载

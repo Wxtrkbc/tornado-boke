@@ -15,13 +15,23 @@ function init() {
     checknumBindBlur();
     loginBindClick();
 }
+function realLength(str) {
+    var Length = 0, len = str.length, charCode = -1;
+    for (var i = 0; i < len; i++) {
+        charCode = str.charCodeAt(i);
+        if (charCode >= 0 && charCode <= 128) Length += 1;
+        else Length += 2;
+    }
+    return Length;
+}
+
 
 function usernameBindBlur() {
     $("#username").children("input").blur(function () {
         var current_var = $(this).val();
         var info = $("#info-name");
         //下面开始判断用户的输入是否合法
-        if(current_var.length<4||current_var.length>20){
+        if(realLength(current_var) < 4 || realLength(current_var)  > 20){
             info.removeClass('hidden').text('用户名的长度范围为4-20');
         }else {
              if(current_var.search(/[\s$%&*^~]/) != -1){

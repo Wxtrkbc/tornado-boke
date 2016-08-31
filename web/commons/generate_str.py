@@ -24,3 +24,9 @@ def generate_md5(value):
     obj.update(value.encode('utf-8'))
     return obj.hexdigest()
 
+
+def generate_password(value):
+    obj = hashlib.md5()
+    obj.update(value.encode('utf-8'))
+    return obj.hexdigest()
+

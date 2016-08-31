@@ -21,6 +21,7 @@ application = tornado.web.Application([
     (r"/index/(?P<page>\d*)", home.IndexHandler),
     (r"/register", account.RegisterHandler),
     (r"/login", account.LoginHandler),
+    (r"/logout", account.LogoutHandler),
     (r"/about", home.AboutHandler),
     (r"/check_code", identity.CheckCodeHandler),      # 随机验证码
     (r"/check_username", identity.CheckUserHandler),  # 检查用户名是否存在

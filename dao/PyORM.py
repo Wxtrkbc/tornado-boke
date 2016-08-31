@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from dao import SqlAchemyOrm as ORM
 from sqlalchemy import and_, or_
 from sqlalchemy.sql import func
-
+from web.commons.generate_str import generate_password
 
 # 用来连接数据库
 class DBConnection:
@@ -45,15 +45,20 @@ class UserInfoDao:
     def fetchByUE(self, user, pwd):
         return self.conn.query(ORM.UserInfo).filter(
             or_(
-                and_(ORM.UserInfo.username == user, ORM.UserInfo.password == pwd),
-                and_(ORM.UserInfo.email == user, ORM.UserInfo.password == pwd),
+                and_(ORM.UserInfo.username == user, ORM.UserInfo.password == generate_password(pwd)),
+                and_(ORM.UserInfo.email == user, ORM.UserInfo.password == generate_password(pwd)),
             )
         ).first()
 
     def insetUser(self, username, password, email, ctime):
-        user = ORM.UserInfo(username=username, password=password, email=email, ctime=ctime)
+        user = ORM.UserInfo(username=username, password=generate_password(password), email=email, ctime=ctime)
         self.conn.add(user)
+        self.conn.flush()
+        self.conn.refresh(user)
+        last_nid = user.nid
         self.conn.commit()
+        return last_nid
+
 
     def close(self):
         self.db_conn.close()
@@ -164,7 +169,7 @@ class ArticleDao:
 
     def updatePageview(self, nid):
         self.conn.query(ORM.Article).filter(ORM.Article.nid == nid).update({'pageviews': ORM.Article.pageviews + 1})
-        self.commit()
+        self.conn.commit()
 
     def fetchArticleById(self, nid):
         return self.conn.query(ORM.Article, ORM.ArticleCategory).filter(and_(

@@ -22,10 +22,12 @@ class RegisterHandler(BaseHandler):
         if form.valid(self):
             current_date = datetime.datetime.now()
             limit_day = current_date - datetime.timedelta(minutes=1)
+            # 插入数据的时候记得直接获取一下last_nid,避免再次去数据库查询一次用户的id
             rep = AS.register(form, limit_day, rep, current_date)
             if rep.status:      # 注册成功就认为登陆了
                 self.session['is_login'] = True
-                print(form._value_dict)
+                form._value_dict.update({'nid': rep.message['last_nid']})
+                print(form._value_dict,11)
                 self.session['user_info'] = form._value_dict
         else:
             rep.message = form._error_dict
@@ -59,7 +61,14 @@ class LoginHandler(BaseHandler):
             self.session['is_login'] = True
             self.session['user_info'] = user_info_dict
             rep.status = True
-            user_obj.close()
+
         else:
             rep.message = form._error_dict
         self.write(json.dumps(rep.__dict__))
+
+
+class LogoutHandler(BaseHandler):
+    def get(self):
+        self.session['is_login'] = False
+        self.session['user_info'] = None
+        self.redirect('/index/')

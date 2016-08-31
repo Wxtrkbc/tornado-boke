@@ -23,6 +23,16 @@ function init() {
     BindSendMsg()
 }
 
+function realLength(str) {
+    var Length = 0, len = str.length, charCode = -1;
+    for (var i = 0; i < len; i++) {
+        charCode = str.charCodeAt(i);
+        if (charCode >= 0 && charCode <= 128) Length += 1;
+        else Length += 2;
+    }
+    return Length;
+}
+
 // 前端验证用户名，并且发送ajax验证用户名是否已经存在
 function usernameBindBlur() {
     $("#username").children("input").blur(function () {
@@ -30,7 +40,7 @@ function usernameBindBlur() {
         console.log(current_var);
         var info = $("#info-name");
 
-        if (current_var.length < 4 || current_var.length > 20) {
+        if (realLength(current_var) < 4 || realLength(current_var)  > 20) {
             info.removeClass('hidden').text('用户名的长度范围为4-20');
         } else {
             if (current_var.search(/[\s$%&*^~]/) != -1) {
@@ -51,30 +61,6 @@ function usernameBindBlur() {
                     }
                 });
             }
-
-            // 发ajax请求验证数据库里面用户名是否存在
-            // $.post({
-            //     url: '/check_username',
-            //     data: {'username': current_var},
-            //     success: function (callback) {
-            //         if (callback == 'true') {
-            //             //下面开始判断用户的输入是否合法
-            //             if (current_var.length < 4 || current_var.length > 20) {
-            //                 info.removeClass('hiden').text('用户名的长度范围为4-20');
-            //             } else {
-            //                 if (current_var.search(/[\s$%&*^~]/) != -1) {
-            //                     info.removeClass('hiden').text('您输入的用户名有特殊字符');
-            //                 } else {
-            //                     info.addClass('hiden');
-            //                     usernameFlag = true;
-            //                 }
-            //             }
-            //         }
-            //         else {
-            //             info.removeClass('hiden').text('用户名已存在');
-            //         }
-            //     }
-            // });
         }
     })
 }
@@ -101,8 +87,6 @@ function emailBindBlur() {
                         }
                     }
                 });
-            // info.addClass('hidden');
-            // emailFlag = true;
         } else {
             info.removeClass('hidden').text('您输入的邮箱格式不对')
         }
@@ -143,24 +127,7 @@ function checkpsdBindBlur() {
     });
 }
 
-// 邮箱验证码
-// function checknumBindBlur() {
-//     checknumFlag = true;
-// }
 
-// function registerBindClick() {
-//     $(".register button").click(function () {
-//         var ret = false;
-//         myTrigger();
-//         if (usernameFlag & emailFlag & passwordFlag & checkpsdFlag ) {
-//             console.log(111)
-//             ret = true;
-//         } else {
-//             alert('您的输入有误，请重新输入');
-//         }
-//         return ret;
-//     });
-// }
 
 
 function registerBindClick() {

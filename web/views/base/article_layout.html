@@ -44,7 +44,11 @@
             </div>
             <div class="comment_box clearfix">
                 <textarea id="comment_article_{{ret[0].nid}}"></textarea>
-                <a href="javascript:void(0);" onclick="postComment({{ret[0].nid}})">评论</a>
+                {% if handler.session['is_login'] %}
+                <a href="javascript:void(0);"  onclick="postComment({{ret[0].nid}})">评论</a>
+                {% else %}
+                <a href="/login" target="_blank">评论</a>
+                {% end %}
             </textarea>
         </div>
     </div>
@@ -77,7 +81,6 @@
                 var reply_id = 'None';
                 var content = temp_content;
             }
-            console.log(content, reply_id, article_id);
             $.ajax({
                 url: '/send_comment',
                 type: 'POST',
@@ -88,7 +91,6 @@
                 },
                 success:function (comment_tree) {
                     $(".post_comments .comment_list").html(comment_tree);
-                    console.log(comment_tree);
                     textarea.val('')
                 }
             })

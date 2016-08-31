@@ -34,38 +34,65 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="../../static/plugins/syntaxhighlighter/styles/shCoreMidnight.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-    <textarea>
+<textarea >
+</textarea>
+<button onclick="submit()">
+    提交
+</button>
+<div id="11">
 
-    </textarea>
-    <script src="../static/plugins/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript">
-     tinymce.init({
-            selector: "#create_bbs",
-         theme: "modern",
-            //width: 300,
-            height: 300,
-            plugins: [
-                 "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
-                 "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-                 "save table contextmenu directionality emoticons template paste textcolor"
-           ],
-           //content_css: "css/content.css",
-           toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
-           style_formats: [
-                {title: 'Bold text', inline: 'b'},
-                {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
-                {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
-                {title: 'Example 1', inline: 'span', classes: 'example1'},
-                {title: 'Example 2', inline: 'span', classes: 'example2'},
-                {title: 'Table styles'},
-                {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
-            ]
+</div>
+<script  src="../static/plugins/syntaxhighlighter/scripts/shCore.js"></script>
+<script src="../static/plugins/syntaxhighlighter/scripts/shBrushPython.js"></script>
+<script>
+SyntaxHighlighter.all();
+</script>
+<script src="../static/plugins/tinymce/tinymce.min.js"></script>
+<script src="../static/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+    tinymce.init({
+        mode:"textareas",
+//        selector: "#create_bbs",
+        theme: "modern",
+        //width: 300,
+        height: 300,
+        plugins: [
+            "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+            "save table contextmenu directionality emoticons template paste textcolor"
+        ],
+        //content_css: "css/content.css",
+//        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
+//        style_formats: [
+//            {title: 'Bold text', inline: 'b'},
+//            {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+//            {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+//            {title: 'Example 1', inline: 'span', classes: 'example1'},
+//            {title: 'Example 2', inline: 'span', classes: 'example2'},
+//            {title: 'Table styles'},
+//            {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+//        ]
 
-        });
+    });
 
+</script>
+<script>
+    function submit() {
+        var data = tinyMCE.activeEditor.getContent()
+        $.ajax({
+            url:'/test',
+            type:'POST',
+            data:{'data':data},
+            success:function (arg) {
+                console.log(arg);
+                $("#11").html(arg);
+            }
+        })
+    }
 </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-import json
+
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -10,14 +10,22 @@ from commons import comment_tree
 from commons import uimethods
 from service import homeService as HS
 from web.commons.pager import Pagenation
+from web.commons import login_auth
+from web.commons import page_cache
+import json
+import datetime
+
 
 class IndexHandler(BaseHandler):
 
+    # @page_cache.cache
     def get(self, page):
+        # time = datetime.datetime.now()   用来测试缓存页面是否生效
         all_count = HS.getArticlesCount()
-        page_obj = Pagenation(page, all_count, 7)  # 每页7项数据
-        str_page = page_obj.generate_str_page('/index/')
+        page_obj = Pagenation(page, all_count, 7)           # 每页7项数据
+        str_page = page_obj.generate_str_page('/index/')    # 分页
         content_list = HS.getAll()[page_obj.start_item:page_obj.end_item]
+        # self.render('home/index.html', str_page=str_page, ret=content_list, time=time)
         self.render('home/index.html', str_page=str_page, ret=content_list)
 
 
@@ -28,11 +36,17 @@ class AboutHandler(BaseHandler):
 # 文章页
 class articleHandler(BaseHandler):
     def get(self, pid):
-        ret = HS.getArticleById(pid)
+        ret = HS.getArticleById(pid)                # 文章详细信息
         count_comments = HS.getArticleCommnet(pid)  # 文章评论数量
         comment_list = HS.getCommnet(pid)
-        comment = comment_tree.build_tree(comment_list)
-        self.render('articles/{}.html'.format(pid), ret=ret, count_comments=count_comments, comment=comment)
+        comment = comment_tree.build_tree(comment_list)  # 评论树
+        HS.updatePageviews(pid)             # 跟新文章浏览量
+        self.render(
+            'articles/{}.html'.format(pid),
+            ret=ret,
+            count_comments=count_comments,
+            comment=comment,
+        )
 
 
 # 分类主页
@@ -78,17 +92,29 @@ class testHandler(BaseHandler):
     def get(self):
         self.render('text.html')
 
+    def post(self):
+        data = self.get_argument('data', None)
+        print(data)
+
+        # class ="brush: python; toolbar: false;
+        # self.write(data.replace('<pre', '<pre class="brush: python; toolbar: false;').replace('<br />', ''))
+        self.write(data)
 
 
 class commentHandler(BaseHandler):
+    # @login_auth.auth_login_redirct   # 测试认证功能
+    # def get(self):
+    #     self.write('sss')
+
+    @login_auth.auth_login_redirct    # 没有登录的话直接跳转到登录页
     def post(self):
         article_id = self.get_argument('article_id', None)
         content = self.get_argument('content', None)
         reply_id = self.get_argument('reply_id', None)
         if reply_id == 'None':
             reply_id = None
-        # user_id = self.session['user_info']['nid']
-        user_id = 1
+        user_id = self.session['user_info']['nid']
+        # user_id = 1
         HS.setComment(user_id, article_id, reply_id, content)  # 将评论数据插入到数据库
 
         comment_list = HS.getCommnet(article_id)                      # 从数据库将数据取出来到前端渲染
