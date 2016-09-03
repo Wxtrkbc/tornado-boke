@@ -71,11 +71,12 @@
 .comment_box{
     position: relative;
     margin-left: 50px;
-    height: 50px;
+    height: 70px;
     width: 100%;
     margin-bottom: 10px;
 }
 .comment_box textarea{
+    margin-top: 10px;
     height: 50px;
     width: 600px;
     color: #999;
@@ -85,6 +86,7 @@
 
 }
 .comment_box a{
+    margin-top: 10px;
     left: 600px;
     display: inline-block;
     height: 50px;
