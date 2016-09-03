@@ -11,7 +11,7 @@ PY_MYSQL_CONN_DICT = {      # pymsql 连接信息
 
 SQL_ALCHEMY_CONN_STR = "mysql+pymysql://root:123@127.0.0.1:3306/myboke?charset=utf8"
 
-SQL_ALCHEMY_MAX_OVERFLOW = 1
+SQL_ALCHEMY_MAX_OVERFLOW = 5
 
 
 REDIS_CONNECT_DIRT = {
@@ -23,9 +23,6 @@ REDIS_CONNECT_DIRT = {
 MEMCACHED_CONNECT_LIST = [
     '192.168.46.129:12000',    # memcached 连接地址
 ]
-
-
-
 
 
 SESSION_TYPE = "cache"   # Session类型：cache/redis/memcached

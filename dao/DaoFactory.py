@@ -4,6 +4,7 @@
 from dao import PyORM
 
 
+
 class UserInfoFactory:
     __dao = PyORM.UserInfoDao()
 

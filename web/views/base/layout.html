@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="keywords" content="Python">
+    <meta name="description" content="Python全站学习之路">
     <title>Melody &hearts; Blog</title>
+    <link rel="icon" href="{{static_url('picture/icon.gif')}}">
     <link href="{{static_url('css/common.css')}}" type="text/css" rel="stylesheet">
     {% block css %} {% end %}
 </head>
@@ -47,7 +50,8 @@
             <span class="sidebar-toggle-line sidebar-toggle-line-last" ></span>
         </div>
     </div>
-    <div class="sidebar hidden">
+    <!--if handler.get_cookie('click_sidebar') -->
+    <div class="sidebar hidden cookie">
         <div class="sidebar-inner">
             <div class="picture">
                 <img height="110" width="110" src="{{static_url('picture/a.png')}}" alt="Jason">
@@ -82,6 +86,7 @@
     </div>
 </div>
 <script src="{{static_url('js/jquery-2.1.4.min.js')}}"></script>
+{% block js %} {% end %}
 <script>
     $(function () {
         window.onscroll = function () {
@@ -101,7 +106,7 @@
 </script>
 <script>
     $(".sidebar_toggle").click(function () {
-        if($(this).attr('click_flag') == 'false'){
+        if($(this).attr('click_flag') == 'false' ){
             $(".sidebar").removeClass('hidden');
             $(".sidebar-toggle-line-first").css({
                 "width":"100%",
@@ -125,6 +130,8 @@
                 'margin-right':'320px',
             });
             $(this).attr('click_flag','true');
+//            document.cookie="click_sidebar=1"
+//            $.cookie('click_sidebar',1)
         }else {
             $(".sidebar").addClass('hidden');
             $(".sidebar-toggle-line-first").css({
@@ -149,11 +156,12 @@
                 'margin':'0 auto',
             });
             $(this).attr('click_flag','false');
+//            document.cookie="click_sidebar=0"
+//            $.cookie('click_sidebar',0)
         }
 
     });
 
 </script>
-{% block js %} {% end %}
 </body>
 </html>

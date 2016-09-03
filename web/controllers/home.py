@@ -42,7 +42,7 @@ class articleHandler(BaseHandler):
         comment = comment_tree.build_tree(comment_list)  # 评论树
         HS.updatePageviews(pid)             # 跟新文章浏览量
         self.render(
-            'articles/{}.html'.format(pid),
+            'base/article_layout.html',
             ret=ret,
             count_comments=count_comments,
             comment=comment,

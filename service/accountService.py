@@ -7,7 +7,6 @@ import datetime
 def login(form):
     userInfo = UserInfoFactory.get_dao()
     ret = userInfo.fetchByUE(form._value_dict['username'], form._value_dict['password'])
-    # userInfo.close()
     return ret
 
 
