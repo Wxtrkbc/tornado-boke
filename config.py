@@ -25,7 +25,12 @@ MEMCACHED_CONNECT_LIST = [
 ]
 
 
+
+
+
 SESSION_TYPE = "cache"   # Session类型：cache/redis/memcached
 
 SESSION_EXPIRES = 3600   # Session超时时间（秒）
+
+REDIS_PAGE_CAHE_EXPIRES = 10   # 页面缓存时间
 

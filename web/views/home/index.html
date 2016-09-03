@@ -28,7 +28,8 @@
 
     {% for item in ret %}
     <div class="article">
-        <div class="post_header">
+        <div class="article-container">
+            <div class="post_header">
             <h1 class="post_title">
                 <a class="post_link" href="{{item[0].url}}">
                      {{item[0].title}}
@@ -50,7 +51,7 @@
                 <!--</span>-->
             </div>
         </div>
-        <div class="post_body">
+            <div class="post_body">
             <p>
                 {{item[0].content}}
             </p>
@@ -63,6 +64,8 @@
                 <div class="post_eof"></div>
             </div>
         </div>
+        </div>
+
     </div>
     {% end %}
     <div class="page">

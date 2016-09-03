@@ -36,6 +36,7 @@ class UserInfo(Base):
     password = Column(String(32))
     email = Column(String(32))
     ctime = Column(TIMESTAMP)
+    # user_type = Column(Integer, default=0)   # 默认为普通用户 ，1为管理员
 
     # 自引用，多对多
     # followed = relationship('UserInfo', secondary='Follow.__table__',  backref='followers')
@@ -66,23 +67,24 @@ class Article(Base):
     ctime = Column(TIMESTAMP)
     title = Column(String(32))
     url = Column(String(128))
-    content = Column(TEXT)
+    content = Column(TEXT)          # 概要
+    # main_content = Column(TEXT)     # 文章主要1内容
     type_id = Column(Integer, ForeignKey('article_category.nid'))
     pageviews = Column(Integer)
 
 
 # 文章点赞表
-class FavorArt(Base):
-    __tablename__ = 'favor_art'
-
-    nid = Column(Integer, primary_key=True, autoincrement=True)
-    user_info_id = Column(Integer, ForeignKey("userinfo.nid"))
-    article_id = Column(Integer, ForeignKey("article.nid"))
-    ctime = Column(TIMESTAMP)
-
-    __table_args__ = (
-        UniqueConstraint('user_info_id', 'article_id', name='uix_uid_nid'),
-    )
+# class FavorArt(Base):
+#     __tablename__ = 'favor_art'
+#
+#     nid = Column(Integer, primary_key=True, autoincrement=True)
+#     user_info_id = Column(Integer, ForeignKey("userinfo.nid"))
+#     article_id = Column(Integer, ForeignKey("article.nid"))
+#     ctime = Column(TIMESTAMP)
+#
+#     __table_args__ = (
+#         UniqueConstraint('user_info_id', 'article_id', name='uix_uid_nid'),
+#     )
 
 
 class ArticleComment(Base):
@@ -135,12 +137,12 @@ class ArticleComment(Base):
 
 
 # 相互关注中间表
-class Follow(Base):
-    __tablename__ = 'follows'
-    nid = Column(Integer, primary_key=True, autoincrement=True)
-    follower_id = Column(Integer, ForeignKey("userinfo.nid"))
-    followed_id = Column(Integer, ForeignKey("userinfo.nid"))
-    ctime = Column(TIMESTAMP)
+# class Follow(Base):
+#     __tablename__ = 'follows'
+#     nid = Column(Integer, primary_key=True, autoincrement=True)
+#     follower_id = Column(Integer, ForeignKey("userinfo.nid"))
+#     followed_id = Column(Integer, ForeignKey("userinfo.nid"))
+#     ctime = Column(TIMESTAMP)
 
 
 def init_db():

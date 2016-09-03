@@ -40,6 +40,32 @@
          {% block body %}
          {% end %}
     </div>
+    <div class="sidebar_toggle" click_flag="false">
+        <div class="sidebar-toggle-line-wrap">
+            <span class="sidebar-toggle-line sidebar-toggle-line-first" ></span>
+            <span class="sidebar-toggle-line sidebar-toggle-line-middle" ></span>
+            <span class="sidebar-toggle-line sidebar-toggle-line-last" ></span>
+        </div>
+    </div>
+    <div class="sidebar hidden">
+        <div class="sidebar-inner">
+            <div class="picture">
+                <img height="110" width="110" src="{{static_url('picture/a.png')}}" alt="Jason">
+                <p class="name" style="color: white">Jason</p>
+                <p>“ live beautifully, dream passionately, love completely ”</p>
+            </div>
+            <a href="/contents/">文章</a>
+            <a href="/categories">分类</a>
+            <a href="/about">关于</a>
+
+            <div class="contact">
+                <p>联系我</p>
+                <img src="{{static_url('picture/icon_contact.png')}}" alt="contact" height="160" width="160">
+            </div>
+
+
+        </div>
+    </div>
     <div class="retTop">
 
     </div>
@@ -58,20 +84,74 @@
 <script src="{{static_url('js/jquery-2.1.4.min.js')}}"></script>
 <script>
     $(function () {
-//            返回顶部
-            window.onscroll = function () {                 
-                var scrollHeight = $(window).scrollTop();
-                if(scrollHeight<100){
-                    $(".retTop").addClass('hidden');
-                }else {
-                    $(".retTop").removeClass('hidden')
-                }
-            };
+        window.onscroll = function () {
+            var scrollHeight = $(window).scrollTop();
+            if(scrollHeight<100){
+                $(".retTop").addClass('hidden');
+            }else {
+                $(".retTop").removeClass('hidden')
+            }
+        };
 
-            $(".retTop").click(function () {
+        $(".retTop").click(function () {
                 $(window).scrollTop(0);
             })
         })
+
+</script>
+<script>
+    $(".sidebar_toggle").click(function () {
+        if($(this).attr('click_flag') == 'false'){
+            $(".sidebar").removeClass('hidden');
+            $(".sidebar-toggle-line-first").css({
+                "width":"100%",
+                'top':"5px",
+                '-webkit-transform' : 'rotateZ(-45deg)',
+                'left': '0'
+            });
+            $(".sidebar-toggle-line-middle").css({
+                "opacity":'0'
+            });
+            $(".sidebar-toggle-line-last").css({
+            "width":"100%",
+            'top':"-5px",
+            '-webkit-transform' : 'rotateZ(45deg)',
+            'left': '0'
+        });
+            $(".body_container").css({
+                'margin-right':'320px',
+            });
+            $('.header_container').css({
+                'margin-right':'320px',
+            });
+            $(this).attr('click_flag','true');
+        }else {
+            $(".sidebar").addClass('hidden');
+            $(".sidebar-toggle-line-first").css({
+                "width":"100%",
+                'top':"0px",
+                '-webkit-transform' : 'rotateZ(0deg)',
+                'left': '0'
+            });
+            $(".sidebar-toggle-line-middle").css({
+                "opacity":'1'
+            });
+            $(".sidebar-toggle-line-last").css({
+            "width":"100%",
+            'top':"0px",
+            '-webkit-transform' : 'rotateZ(0deg)',
+            'left': '0'
+        });
+            $(".body_container").css({
+                'margin':'0 auto',
+            });
+            $('.header_container').css({
+                'margin':'0 auto',
+            });
+            $(this).attr('click_flag','false');
+        }
+
+    });
 
 </script>
 {% block js %} {% end %}

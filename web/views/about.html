@@ -1,10 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1>about</h1>
-</body>
-</html>
+{% extends 'base/layout.html' %}
+
+{% block css %}
+<style>
+    .about{
+        margin: 0 100px;
+        color:#555;
+        line-height: 2;
+        font-size: 14px;
+    }
+    .about p{
+        text-indent: 40px;
+    }
+    .about h2{
+        margin-bottom: 10px;
+    }
+    .about_me{
+        margin:20px 0;
+    }
+    .about_site ul{
+        margin-left: 55px;
+        margin-bottom: 30px;
+    }
+</style>
+{% end %}
+
+
+{% block body %}
+<div class="about">
+    <div class="about_me">
+        <h2>关于我</h2>
+        <p>
+            程序员一名，
+            曾接触过C、C++、汇编、Java等语言，然而却从来没有深入过、始终只是略懂皮毛而已，
+            后来工作偶遇Python瞬间豁然开朗，从此便对Python情有独钟，立志成为一名Python全栈工程师。
+        </p>
+    </div>
+    <div class="about_site">
+        <h2>关于本站</h2>
+        <p>本站所有文章是本人学习Python过程中所写，包括Python基础、前端、数据库、web框架、爬虫等</p>
+        <p>本站是基于tornado来实现的，基本上前端后端所有的小插件都是自己实现的，此外所有源码均以上传至github。</p>
+        <h2 style="margin-top: 20px">建站所用知识</h2>
+        <ul>
+            <li>整体框架:3层架构+MVC+SQLAlchemy</li>
+            <li>前端html+css+jquery+ajax</li>
+            <li>前端用jquery自己实现form表单验证</li>
+            <li>后端自己实现分页插件</li>
+            <li>后端自己实现form表单验证</li>
+            <li>后端自己实现session插件，只需修改配置文件就可实现将session放置在内存、memcached、redis中</li>
+            <li>后端页面利用redis进行缓存</li>
+            <li>文章多级评论</li>
+        </ul>
+    </div>
+</div>
+
+{% end %}
+
