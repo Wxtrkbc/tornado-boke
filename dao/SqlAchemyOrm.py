@@ -37,7 +37,7 @@ class UserInfo(Base):
     password = Column(String(32))
     email = Column(String(32))
     ctime = Column(TIMESTAMP)
-    user_type = Column(Integer, default=0)   # 默认为普通用户 ，1为管理员
+    # user_type = Column(Integer, default=0)   # 默认为普通用户 ，1为管理员
 
     # 自引用，多对多
     # followed = relationship('UserInfo', secondary='Follow.__table__',  backref='followers')
@@ -101,4 +101,4 @@ def drop_db():
 
 
 # drop_db()
-init_db()
+# init_db()

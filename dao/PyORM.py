@@ -150,6 +150,11 @@ class ArticleDao:
         else:
             return self.conn.query(ORM.Article.nid).filter(ORM.Article.type_id == pid).count()
 
+    def fetchPreNext(self, pid):
+        pre_article = self.conn.query(ORM.Article.url, ORM.Article.title).filter(ORM.Article.nid == int(pid)-1).first()
+        next_article = self.conn.query(ORM.Article.url, ORM.Article.title).filter(ORM.Article.nid == int(pid)+1).first()
+        return pre_article, next_article
+
     def fetchArticles(self, pid):
         if not pid:
             return self.conn.query(ORM.Article.url, ORM.Article.title, ORM.Article.ctime).order_by(

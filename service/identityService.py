@@ -4,7 +4,7 @@
 from dao.DaoFactory import *
 import datetime
 from web.commons import generate_str
-
+from web.commons import sendemail
 
 def isExistUser(username):
     userInfo = UserInfoFactory.get_dao()
@@ -19,6 +19,8 @@ def isExistEmail(email):
 def emailCode(email):
     current_date = datetime.datetime.now()
     random_code = generate_str.generate_yzm()
+    sendemail.email([email, ], random_code)
+
     sendMsgObj = SendMsgFactory.get_dao()
     ret_dict = {}
     code_count = sendMsgObj.fetchCount(email)  # 获取该邮箱已经发送code的次数

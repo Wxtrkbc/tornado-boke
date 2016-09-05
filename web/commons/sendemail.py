@@ -6,9 +6,9 @@ from email.mime.text import MIMEText
 from email.utils import formataddr
 
 
-def email(email_list, content, subject="抽屉新热榜-用户注册"):
+def email(email_list, content, subject="melody's blog--Register"):
     msg = MIMEText(content, 'plain', 'utf-8')
-    msg['From'] = formataddr(["抽屉新热榜", 'liujianzuo88888@126.com'])
+    msg['From'] = formataddr(["melody's blog", 'liujianzuo88888@126.com'])
     msg['Subject'] = subject
 
     server = smtplib.SMTP("smtp.126.com", 25)

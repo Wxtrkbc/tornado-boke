@@ -29,6 +29,11 @@ def getAll():
     article = ArticleFactory.get_dao()
     return article.fetchAll()
 
+def getPreNext(pid):
+    article = ArticleFactory.get_dao()
+    return article.fetchPreNext(pid)
+
+
 def updatePageviews(nid):                   # 跟新文章浏览量
     article = ArticleFactory.get_dao()
     article.updatePageview(nid)

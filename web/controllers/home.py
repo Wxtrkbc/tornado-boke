@@ -41,11 +41,15 @@ class articleHandler(BaseHandler):
         comment_list = HS.getCommnet(pid)
         comment = comment_tree.build_tree(comment_list)  # 评论树
         HS.updatePageviews(pid)             # 跟新文章浏览量
+
+        pre_article, next_article = HS.getPreNext(pid)
         self.render(
             'base/article_layout.html',
             ret=ret,
             count_comments=count_comments,
             comment=comment,
+            pre_article=pre_article,
+            next_article=next_article
         )
 
 
@@ -53,12 +57,8 @@ class articleHandler(BaseHandler):
 class categoriesHandler(BaseHandler):
     def get(self):
         count, ret = HS.category()
-        # for item in ret:
-        #     print(item[0], item[1])
-        # print(count, ret, 111)
-        hot_articles = HS.getHotArticles()
 
-        # print(hot_articles)
+        hot_articles = HS.getHotArticles()
         self.render('categories.html', count=count, category_info=ret, hot_articles=hot_articles)
 
 
@@ -88,17 +88,17 @@ class categHandler(BaseHandler):
 
 
 
-class testHandler(BaseHandler):
-    def get(self):
-        self.render('text.html')
-
-    def post(self):
-        data = self.get_argument('data', None)
-        print(data)
-
-        # class ="brush: python; toolbar: false;
-        # self.write(data.replace('<pre', '<pre class="brush: python; toolbar: false;').replace('<br />', ''))
-        self.write(data)
+# class testHandler(BaseHandler):
+#     def get(self):
+#         self.render('text.html')
+#
+#     def post(self):
+#         data = self.get_argument('data', None)
+#         print(data)
+#
+#         # class ="brush: python; toolbar: false;
+#         # self.write(data.replace('<pre', '<pre class="brush: python; toolbar: false;').replace('<br />', ''))
+#         self.write(data)
 
 
 class commentHandler(BaseHandler):
