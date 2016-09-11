@@ -54,14 +54,14 @@
                     <li class="dropdown">
                         <a title="" href="#" class="dropdown-toggle user-favicon" data-toggle="dropdown" role="button"
                            aria-expanded="false">
-                            <span>{{ admin_username }}</span>
+                            <div style="margin-top: 10px">{{ admin_username }}</div>
                             <!--<img src="/static/images/default.png" alt="用户信息" class="img-circle user-img">-->
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#">我的资料</a></li>
                             <li><a href="#">待办事项</a></li>
                             <li class="divider"></li>
-                            <li><a href="/account/logout/">退出</a></li>
+                            <li><a href="#">退出</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -137,20 +137,18 @@
                                         <th en-sort="true" class="col-md-2 en-sort both">用户名</th>
                                         <th en-sort="true" class="col-md-2 en-sort both">邮箱</th>
                                         <th en-sort="true" class="col-md-1 en-sort both">用户类别</th>
-                                        <th en-sort="true" class="col-md-1 en-sort both">用户级别</th>
-                                        <th en-sort="true" class="col-md-2 en-sort both">最后一次登录时间</th>
+                                        <th en-sort="true" class="col-md-2 en-sort both">用户创建时间</th>
                                     </tr>
                                     </thead>
                                     <tbody id="table-body" edit-mode="false">
-                                    {% for user in rep_list %}
+                                    {% for user in user_list %}
                                     <tr nid="{{user.nid}}">
                                         <td><input type="checkbox" id="{{user.nid}}"></td>
                                         <td>{{user.nid}}</td>
                                         <td edit-enable="true" edit-type="input" name="username" origin="{{user.username}}">{{user.username}}</td>
                                         <td edit-enable="true" edit-type="input" name="email" origin="{{user.email}}">{{user.email}}</td>
-                                        <td edit-enable="true" edit-type="input" name="user_type" origin="{{user.user_type_caption}}">{{user.user_type_caption}}</td>
-                                        <td edit-enable="true" edit-type="input" name="vip" origin="{{user.vip_type_caption}}">{{user.vip_type_caption}}</td>
-                                        <td edit-enable="true" edit-type="input" name="last_login" origin="{{user.last_login}}">{{user.last_login}}</td>
+                                        <td edit-enable="true" edit-type="input" name="user_type" origin="{{user.user_type}}">{{user.user_type}}</td>
+                                        <td edit-enable="true" edit-type="input" name="ctime" origin="{{user.ctime}}">{{user.ctime}}</td>
                                     </tr>
                                     {% end %}
                                     </tbody>
@@ -210,9 +208,8 @@
                                     <label class="col-sm-2 control-label" style="font-weight: normal">用户类型：</label>
                                     <div class="col-sm-9">
                                         <select class="form-control" id="id_user_type" name="user_type">
-                                            <option value="1">用户</option>
-                                            <option value="2">商户</option>
-                                            <option value="3">管理员</option>
+                                            <option value="1">普通用户</option>
+                                            <option value="2">管理员</option>
                                         </select>
                                     </div>
                                 </div>
@@ -228,17 +225,6 @@
                                     <div class="col-sm-9">
                                         <input class="form-control" id="id_mpassword" name="password" placeholder="用户登录密码"
                                                type="password">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label" style="font-weight: normal">VIP：</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-control" id="id_status" name="vip">
-                                            <option value="1">铜牌</option>
-                                            <option value="2">银牌</option>
-                                            <option value="3">金牌</option>
-                                            <option value="4">白金</option>
-                                        </select>
                                     </div>
                                 </div>
                             </div>

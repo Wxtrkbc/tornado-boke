@@ -18,7 +18,7 @@ function SubmitModal(formId) {
         type: 'POST',
         data: data_dict,
         dataType: 'json',
-        success: function () {
+        success: function (callback) {
             CancelModal();
             Refresh();
         }

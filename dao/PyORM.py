@@ -50,6 +50,10 @@ class UserInfoDao:
             )
         ).first()
 
+    def deleteUserById(self, id_list):
+        self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.nid.in_(id_list)).delete(synchronize_session='fetch')
+        self.conn.commit()
+
     def insetUser(self, username, password, email, ctime):
         user = ORM.UserInfo(username=username, password=generate_password(password), email=email, ctime=ctime)
         self.conn.add(user)
@@ -58,6 +62,11 @@ class UserInfoDao:
         last_nid = user.nid
         self.conn.commit()
         return last_nid
+
+    def updateUser(self, **update_data):
+        nid = update_data.pop('nid')
+        self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.nid==nid).update(update_data)
+        self.conn.commit()
 
     #获取管理员账号和密码
     def fetchAdmin(self, user, pwd):
@@ -68,6 +77,14 @@ class UserInfoDao:
                     ORM.UserInfo.user_type == 1,
                 ),
         ).first()
+
+    def fetchUserCount(self):
+        ret = self.conn.query(ORM.UserInfo.nid).count()
+        return ret
+
+    def fetchUser(self,):
+        ret = self.conn.query(ORM.UserInfo).order_by(ORM.UserInfo.ctime.desc()).all()
+        return ret
 
     def close(self):
         self.db_conn.close()
