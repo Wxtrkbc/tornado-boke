@@ -59,6 +59,15 @@ class UserInfoDao:
         self.conn.commit()
         return last_nid
 
+    #获取管理员账号和密码
+    def fetchAdmin(self, user, pwd):
+        return self.conn.query(ORM.UserInfo).filter(
+                and_(
+                    ORM.UserInfo.username == user,
+                    ORM.UserInfo.password == generate_password(pwd),
+                    ORM.UserInfo.user_type == 1,
+                ),
+        ).first()
 
     def close(self):
         self.db_conn.close()

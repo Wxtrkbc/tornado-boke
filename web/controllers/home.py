@@ -18,7 +18,7 @@ import datetime
 
 class IndexHandler(BaseHandler):
 
-    # @page_cache.cache
+    @page_cache.cache
     def get(self, page):
         # time = datetime.datetime.now()   用来测试缓存页面是否生效
         all_count = HS.getArticlesCount()
@@ -34,7 +34,7 @@ class AboutHandler(BaseHandler):
         self.render('about.html')
 
 # 文章页
-class articleHandler(BaseHandler):
+class ArticleHandler(BaseHandler):
     def get(self, pid):
         ret = HS.getArticleById(pid)                # 文章详细信息
         count_comments = HS.getArticleCommnet(pid)  # 文章评论数量
@@ -54,7 +54,7 @@ class articleHandler(BaseHandler):
 
 
 # 分类主页
-class categoriesHandler(BaseHandler):
+class CategoriesHandler(BaseHandler):
     def get(self):
         count, ret = HS.category()
 
@@ -63,7 +63,7 @@ class categoriesHandler(BaseHandler):
 
 
 # 总的目录
-class contentsHandler(BaseHandler):
+class ContentsHandler(BaseHandler):
     def get(self, page=1):
         all_count = HS.getArticlesCount()
         content_str = '本站'
@@ -75,9 +75,8 @@ class contentsHandler(BaseHandler):
         self.render('contents.html', str_page=str_page, content_str=content_str, content_list=content_list, all_count=all_count)
 
 
-
 # 分类目录
-class categHandler(BaseHandler):
+class CategHandler(BaseHandler):
     def get(self, pid=1, page=1):
         all_count = HS.getArticlesCount(pid)
         page_obj = Pagenation(page, all_count, 7)  # 每页7项数据
@@ -101,7 +100,7 @@ class categHandler(BaseHandler):
 #         self.write(data)
 
 
-class commentHandler(BaseHandler):
+class CommentHandler(BaseHandler):
     # @login_auth.auth_login_redirct   # 测试认证功能
     # def get(self):
     #     self.write('sss')

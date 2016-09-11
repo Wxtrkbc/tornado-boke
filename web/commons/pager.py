@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# coding=utf-8
-
 class Pagenation:
     def __init__(self, current_page, all_item, each_item):
 

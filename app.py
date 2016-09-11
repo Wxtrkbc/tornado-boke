@@ -5,6 +5,7 @@ import tornado.web
 from web.controllers import home
 from web.controllers import account
 from web.controllers import identity
+from web.controllers import admin
 from web.commons import uimethods as mt
 import tornado.autoreload
 settings = {
@@ -28,12 +29,15 @@ application = tornado.web.Application([
     (r"/check_email", identity.CheckEmailHandler),    # 检查邮箱是否存在
     (r"/send_msg", identity.SendMsgHandler),          # 向用户注册邮箱发送验证码
 
-    (r'/articles/(?P<pid>\d*)', home.articleHandler),   # 相应文章
-    (r'/categories', home.categoriesHandler),              # 分类
-    (r'/contents/(?P<page>\d*)', home.contentsHandler),    # 目录
+    (r'/articles/(?P<pid>\d*)', home.ArticleHandler),   # 相应文章
+    (r'/categories', home.CategoriesHandler),              # 分类
+    (r'/contents/(?P<page>\d*)', home.ContentsHandler),    # 目录
 
-    (r'/categ/(?P<pid>\d*)/(?P<page>\d*)', home.categHandler),    # 分类目录
-    (r'/send_comment', home.commentHandler),        # 处理发布的评论
+    (r'/categ/(?P<pid>\d*)/(?P<page>\d*)', home.CategHandler),    # 分类目录
+    (r'/send_comment', home.CommentHandler),        # 处理发布的评论
+    (r'/admin-login', admin.LoginHandler),        # 管理员登陆
+    (r'/manage', admin.ManageHandler),        # 管理员处理页面
+
 
     # (r'/test', home.testHandler),    # test
 
