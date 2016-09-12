@@ -64,13 +64,14 @@
     margin-top: 22px;
 }
 .login-content .register{
-    width: 88px;
+    width: 100px;
     height: 40px;
     background-color: slategray;
     color: white;
     line-height: 40px;
     margin-left: 500px;
     margin-top: 20px;
+    text-align: center;
 }
 
 

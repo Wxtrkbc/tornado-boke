@@ -12,8 +12,8 @@ settings = {
     'template_path': 'web/views',
     'static_path': 'web/static',
     "cookie_secret": 'wxtrkbc',
-    'autoreload': True,
-    'debug': True,
+    # 'autoreload': True,
+    # 'debug': True,
     'ui_methods': mt,
 }
 
@@ -43,16 +43,13 @@ application = tornado.web.Application([
     (r"/page$", admin.PageHandler),             # ajax 分页取数据
 
 
-    # (r'/test', home.testHandler),    # test
-
-
 ], **settings)
 
 
 if __name__ == "__main__":
 
     application.listen(8888)
-    # tornado.ioloop.IOLoop.instance().start()
-    instance = tornado.ioloop.IOLoop.instance()
-    tornado.autoreload.start(instance)
-    instance.start()
+    tornado.ioloop.IOLoop.instance().start()
+    # instance = tornado.ioloop.IOLoop.instance()
+    # tornado.autoreload.start(instance)
+    # instance.start()

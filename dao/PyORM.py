@@ -9,6 +9,7 @@ from sqlalchemy import and_, or_
 from sqlalchemy.sql import func
 from web.commons.generate_str import generate_password
 
+
 # 用来连接数据库
 class DBConnection:
     def __init__(self):
@@ -18,7 +19,7 @@ class DBConnection:
 
     def connect(self):
         engine = create_engine(self.__conn_str, max_overflow=self.__max_overflow)
-        session = sessionmaker(bind=engine)
+        session = sessionmaker(bind=engine, expire_on_commit=False)
         self.conn = session()
         return self.conn
 
@@ -35,24 +36,30 @@ class UserInfoDao:
 
     # 通过username
     def fetchByUsername(self, username):
-        return self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.username == username).first()
+        ret = self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.username == username).first()
+        self.db_conn.close()
+        return ret
 
     # 通过email
     def fetchByEmail(self, email):
-        return self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.email == email).first()
+        ret = self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.email == email).first()
+        self.db_conn.close()
+        return ret
 
     # 通过用户名和密码
     def fetchByUE(self, user, pwd):
-        return self.conn.query(ORM.UserInfo).filter(
+        ret = self.conn.query(ORM.UserInfo).filter(
             or_(
                 and_(ORM.UserInfo.username == user, ORM.UserInfo.password == generate_password(pwd)),
                 and_(ORM.UserInfo.email == user, ORM.UserInfo.password == generate_password(pwd)),
             )
         ).first()
+        self.db_conn.close()
+        return ret
 
     def deleteUserById(self, id_list):
         self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.nid.in_(id_list)).delete(synchronize_session='fetch')
-        self.conn.commit()
+        self.db_conn.close()
 
     def insetUser(self, username, password, email, ctime):
         user = ORM.UserInfo(username=username, password=generate_password(password), email=email, ctime=ctime)
@@ -60,34 +67,35 @@ class UserInfoDao:
         self.conn.flush()
         self.conn.refresh(user)
         last_nid = user.nid
-        self.conn.commit()
+        self.db_conn.close()
         return last_nid
 
     def updateUser(self, **update_data):
         nid = update_data.pop('nid')
-        self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.nid==nid).update(update_data)
-        self.conn.commit()
+        self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.nid == nid).update(update_data)
+        self.db_conn.close()
 
-    #获取管理员账号和密码
+    # 获取管理员账号和密码
     def fetchAdmin(self, user, pwd):
-        return self.conn.query(ORM.UserInfo).filter(
-                and_(
-                    ORM.UserInfo.username == user,
-                    ORM.UserInfo.password == generate_password(pwd),
-                    ORM.UserInfo.user_type == 1,
-                ),
+        ret = self.conn.query(ORM.UserInfo).filter(
+            and_(
+                ORM.UserInfo.username == user,
+                ORM.UserInfo.password == generate_password(pwd),
+                ORM.UserInfo.user_type == 1,
+            ),
         ).first()
+        self.db_conn.close()
+        return ret
 
     def fetchUserCount(self):
         ret = self.conn.query(ORM.UserInfo.nid).count()
-        return ret
-
-    def fetchUser(self,):
-        ret = self.conn.query(ORM.UserInfo).order_by(ORM.UserInfo.ctime.desc()).all()
-        return ret
-
-    def close(self):
         self.db_conn.close()
+        return ret
+
+    def fetchUser(self, ):
+        ret = self.conn.query(ORM.UserInfo).order_by(ORM.UserInfo.ctime.desc()).all()
+        self.db_conn.close()
+        return ret
 
 
 class SendMsgDao:
@@ -97,14 +105,18 @@ class SendMsgDao:
 
     # 判断该email下已经发送验证码的次数
     def fetchCount(self, email):
-        return self.conn.query(ORM.SendMsg).filter_by(email=email).count()
+        ret = self.conn.query(ORM.SendMsg).filter_by(email=email).count()
+        self.db_conn.close()
+        return ret
 
     def fetchCountOverDate(self, email, limit_day):
-        return self.conn.query(ORM.SendMsg).filter(ORM.SendMsg.email == email, ORM.SendMsg.ctime < limit_day).count()
+        ret = self.conn.query(ORM.SendMsg).filter(ORM.SendMsg.email == email, ORM.SendMsg.ctime < limit_day).count()
+        self.db_conn.close()
+        return ret
 
     def clearTimes(self, email):
         self.conn.query(ORM.SendMsg).filter_by(email=email).update({"times": 0})
-        self.conn.commit()
+        self.db_conn.close()
 
     def flashTimes(self, email, current_date, code):
         self.conn.query(ORM.SendMsg).filter_by(email=email).update({"times": ORM.SendMsg.times + 1,
@@ -112,26 +124,27 @@ class SendMsgDao:
                                                                     "ctime": current_date},
                                                                    synchronize_session="evaluate")
 
-        self.conn.commit()
+        self.db_conn.close()
 
     def fetchCountBytime(self, email, limit_day):
-        return self.conn.query(ORM.SendMsg).filter(ORM.SendMsg.email == email,
-                                                   ORM.SendMsg.ctime > limit_day,
-                                                   ORM.SendMsg.times >= 10,
-                                                   ).count()
+        ret = self.conn.query(ORM.SendMsg).filter(ORM.SendMsg.email == email,
+                                                  ORM.SendMsg.ctime > limit_day,
+                                                  ORM.SendMsg.times >= 10,
+                                                  ).count()
+        self.db_conn.close()
+        return ret
 
     def insertCode(self, email, code, time):
         code = ORM.SendMsg(code=code, email=email, ctime=time)
         self.conn.add(code)
-        self.conn.commit()
+        self.db_conn.close()
 
     def fetchValidCode(self, email, code, time):
-        return self.conn.query(ORM.SendMsg).filter(ORM.SendMsg.email == email,
-                                                   ORM.SendMsg.code == code,
-                                                   ORM.SendMsg.ctime > time).count()
-
-    def close(self):
+        ret = self.conn.query(ORM.SendMsg).filter(ORM.SendMsg.email == email,
+                                                  ORM.SendMsg.code == code,
+                                                  ORM.SendMsg.ctime > time).count()
         self.db_conn.close()
+        return ret
 
 
 class ArticleCategoryDao:
@@ -140,29 +153,18 @@ class ArticleCategoryDao:
         self.conn = self.db_conn.connect()
 
     def fetchCount(self):
-        return self.conn.query(ORM.ArticleCategory.nid).count()
-
-    # def fetchCategory(self, name):
-    #     return self.conn.query(ORM.ArticleCategory.name,
-    #                            ORM.ArticleCategory.nid,
-    #                            ORM.Article.type_id,
-    #                            ).filter(and_(ORM.ArticleCategory.nid == ORM.Article.type_id,
-    #                                          ORM.ArticleCategory.name == name)).count()
+        ret = self.conn.query(ORM.ArticleCategory.nid).count()
+        self.db_conn.close()
+        return ret
 
     def fetchCategory(self):
-        # return self.conn.query(ORM.ArticleCategory.name,
-        #                        func.sum(ORM.Article.type_id),
-        #                        ).filter(ORM.ArticleCategory.nid == ORM.Article.type_id).group_by(
-        #     ORM.Article.type_id).all()
-
-        return self.conn.query(ORM.ArticleCategory.name,
-                               ORM.ArticleCategory.url,
-                               func.count(ORM.Article.type_id),
-                               ).join(ORM.Article, isouter=True).group_by(
+        ret = self.conn.query(ORM.ArticleCategory.name,
+                              ORM.ArticleCategory.url,
+                              func.count(ORM.Article.type_id),
+                              ).join(ORM.Article, isouter=True).group_by(
             ORM.Article.type_id).all()
-
-    def close(self):
         self.db_conn.close()
+        return ret
 
 
 class ArticleDao:
@@ -172,61 +174,58 @@ class ArticleDao:
 
     def fetchArticleCount(self, pid):
         if not pid:
-            return self.conn.query(ORM.Article.nid).count()
+            ret = self.conn.query(ORM.Article.nid).count()
         else:
-            return self.conn.query(ORM.Article.nid).filter(ORM.Article.type_id == pid).count()
+            ret = self.conn.query(ORM.Article.nid).filter(ORM.Article.type_id == pid).count()
+        self.db_conn.close()
+        return ret
 
     def fetchPreNext(self, pid):
-        pre_article = self.conn.query(ORM.Article.url, ORM.Article.title).filter(ORM.Article.nid == int(pid)-1).first()
-        next_article = self.conn.query(ORM.Article.url, ORM.Article.title).filter(ORM.Article.nid == int(pid)+1).first()
+        pre_article = self.conn.query(ORM.Article.url, ORM.Article.title).filter(
+            ORM.Article.nid == int(pid) - 1).first()
+        next_article = self.conn.query(ORM.Article.url, ORM.Article.title).filter(
+            ORM.Article.nid == int(pid) + 1).first()
+        self.db_conn.close()
         return pre_article, next_article
 
     def fetchArticles(self, pid):
         if not pid:
-            return self.conn.query(ORM.Article.url, ORM.Article.title, ORM.Article.ctime).order_by(
+            ret = self.conn.query(ORM.Article.url, ORM.Article.title, ORM.Article.ctime).order_by(
                 ORM.Article.ctime.desc()).all()
         else:
-            # return self.conn.query(ORM.Article.url, ORM.Article.title, ORM.Article.ctime).filter(
-            #     ORM.Article.type_id == pid).order_by(ORM.Article.ctime.desc()).all()
-
-            return self.conn.query(ORM.Article.url, ORM.Article.title, ORM.Article.ctime,
-                                   ORM.ArticleCategory.name).filter(and_(
-                                    ORM.Article.type_id == pid,
-                                    ORM.Article.type_id == ORM.ArticleCategory.nid)).order_by(ORM.Article.ctime.desc()).all()
+            ret = self.conn.query(ORM.Article.url, ORM.Article.title, ORM.Article.ctime,
+                                  ORM.ArticleCategory.name).filter(and_(
+                ORM.Article.type_id == pid,
+                ORM.Article.type_id == ORM.ArticleCategory.nid)).order_by(ORM.Article.ctime.desc()).all()
+        self.db_conn.close()
+        return ret
 
     def fetchHotArticle(self):
-        return self.conn.query(ORM.Article.url, ORM.Article.title).order_by(ORM.Article.pageviews.desc(),
-                                                                            ORM.Article.ctime.desc())[0:8]
+        ret = self.conn.query(ORM.Article.url, ORM.Article.title).order_by(ORM.Article.pageviews.desc(),
+                                                                           ORM.Article.ctime.desc())[0:8]
+        self.db_conn.close()
+        return ret
 
     def updatePageview(self, nid):
         self.conn.query(ORM.Article).filter(ORM.Article.nid == nid).update({'pageviews': ORM.Article.pageviews + 1})
-        self.conn.commit()
+        self.db_conn.close()
 
     def fetchArticleById(self, nid):
-        return self.conn.query(ORM.Article, ORM.ArticleCategory).filter(and_(
+        ret = self.conn.query(ORM.Article, ORM.ArticleCategory).filter(and_(
             ORM.Article.nid == nid,
             ORM.Article.type_id == ORM.ArticleCategory.nid
         )).first()
+        self.db_conn.close()
+        return ret
 
     def fetchAll(self):
-        # return self.conn.query(
-        #     ORM.Article,
-        #     ORM.ArticleCategory.name,
-        #     ORM.ArticleCategory.url,
-        #     func.count(ORM.ArticleComment.nid),
-        # ).join(ORM.ArticleComment, ORM.Article.nid == ORM.ArticleComment.article_id).filter(and_(
-        #     ORM.Article.type_id == ORM.ArticleCategory.nid,
-        # )).group_by(ORM.ArticleComment.nid).order_by(
-        #     ORM.Article.ctime.desc()).all()
-
-        return self.conn.query(
+        ret = self.conn.query(
             ORM.Article,
             ORM.ArticleCategory.name,
             ORM.ArticleCategory.url,
         ).filter(ORM.Article.type_id == ORM.ArticleCategory.nid).order_by(ORM.Article.ctime.desc()).all()
-
-    def close(self):
         self.db_conn.close()
+        return ret
 
 
 class ArticleCommentDao:
@@ -235,10 +234,12 @@ class ArticleCommentDao:
         self.conn = self.db_conn.connect()
 
     def getCountsByid(self, pid):
-        return self.conn.query(ORM.ArticleComment.nid).filter(ORM.ArticleComment.article_id == pid).count()
+        ret = self.conn.query(ORM.ArticleComment.nid).filter(ORM.ArticleComment.article_id == pid).count()
+        self.db_conn.close()
+        return ret
 
     def getCommentsById(self, pid):
-        return self.conn.query(
+        ret = self.conn.query(
             ORM.ArticleComment.nid,
             ORM.ArticleComment.content,
             ORM.ArticleComment.reply_id,
@@ -246,8 +247,9 @@ class ArticleCommentDao:
             ORM.ArticleComment.ctime,
             ORM.ArticleComment.user_info_id,
             ORM.ArticleComment.article_id,
-
         ).join(ORM.UserInfo).filter(ORM.ArticleComment.article_id == pid).order_by(ORM.ArticleComment.ctime.asc()).all()
+        self.db_conn.close()
+        return ret
 
     def setComment(self, user_id, article_id, reply_id, content, ctime):
         obj = ORM.ArticleComment(
@@ -258,8 +260,4 @@ class ArticleCommentDao:
             ctime=ctime,
         )
         self.conn.add(obj)
-        self.conn.commit()
-
-
-    def close(self):
         self.db_conn.close()

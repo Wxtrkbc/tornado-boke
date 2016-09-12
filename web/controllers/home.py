@@ -20,12 +20,10 @@ class IndexHandler(BaseHandler):
 
     @page_cache.cache
     def get(self, page):
-        # time = datetime.datetime.now()   用来测试缓存页面是否生效
         all_count = HS.getArticlesCount()
         page_obj = Pagenation(page, all_count, 7)           # 每页7项数据
         str_page = page_obj.generate_str_page('/index/')    # 分页
         content_list = HS.getAll()[page_obj.start_item:page_obj.end_item]
-        # self.render('home/index.html', str_page=str_page, ret=content_list, time=time)
         self.render('home/index.html', str_page=str_page, ret=content_list)
 
 
@@ -84,20 +82,6 @@ class CategHandler(BaseHandler):
         content_list = HS.getArticles(pid)[page_obj.start_item:page_obj.end_item]
         content_str = content_list[0][3]
         self.render('contents.html', str_page=str_page, content_str=content_str, content_list=content_list, all_count=all_count)
-
-
-
-# class testHandler(BaseHandler):
-#     def get(self):
-#         self.render('text.html')
-#
-#     def post(self):
-#         data = self.get_argument('data', None)
-#         print(data)
-#
-#         # class ="brush: python; toolbar: false;
-#         # self.write(data.replace('<pre', '<pre class="brush: python; toolbar: false;').replace('<br />', ''))
-#         self.write(data)
 
 
 class CommentHandler(BaseHandler):

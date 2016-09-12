@@ -39,5 +39,4 @@ def emailCode(email):
                 sendMsgObj.clearTimes(email)
             sendMsgObj.flashTimes(email, current_date, random_code)  # 跟新次数
             ret_dict['status'] = 'True'
-    sendMsgObj.close()
     return ret_dict

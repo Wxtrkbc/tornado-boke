@@ -27,7 +27,7 @@ class RegisterHandler(BaseHandler):
             if rep.status:      # 注册成功就认为登陆了
                 self.session['is_login'] = True
                 form._value_dict.update({'nid': rep.message['last_nid']})
-                print(form._value_dict,11)
+                form._value_dict.pop('ctime')
                 self.session['user_info'] = form._value_dict
         else:
             rep.message = form._error_dict
@@ -69,6 +69,6 @@ class LoginHandler(BaseHandler):
 
 class LogoutHandler(BaseHandler):
     def get(self):
-        self.session['is_login'] = False
+        self.session['is_login'] = None
         self.session['user_info'] = None
         self.redirect('/index/')
