@@ -13,7 +13,7 @@ settings = {
     'static_path': 'web/static',
     "cookie_secret": 'wxtrkbc',
     # 'autoreload': True,
-    # 'debug': True,
+    'debug': True,
     'ui_methods': mt,
 }
 
@@ -48,7 +48,7 @@ application = tornado.web.Application([
 
 if __name__ == "__main__":
 
-    application.listen(8888)
+    application.listen(8088)
     tornado.ioloop.IOLoop.instance().start()
     # instance = tornado.ioloop.IOLoop.instance()
     # tornado.autoreload.start(instance)

@@ -18,13 +18,21 @@ from concurrent.futures import ThreadPoolExecutor
 
 
 class IndexHandler(BaseHandler):
-    @gen.coroutine  # 使其变成异步非阻塞的
-    def get(self, page):
-        thread_pool = ThreadPoolExecutor(2)
-        yield thread_pool.submit(self.block_index, page)
+    # @gen.coroutine  # 使其变成异步非阻塞的
+    # def get(self, page):
+    #     thread_pool = ThreadPoolExecutor(2)
+    #     yield thread_pool.submit(self.block_index, page)
+    #
+    # @page_cache.cache
+    # def block_index(self, page):
+    #     all_count = HS.getArticlesCount()
+    #     page_obj = Pagenation(page, all_count, 7)  # 每页7项数据
+    #     str_page = page_obj.generate_str_page('/index/')  # 分页
+    #     content_list = HS.getAll()[page_obj.start_item:page_obj.end_item]
+    #     self.render('home/index.html', str_page=str_page, ret=content_list)
 
     @page_cache.cache
-    def block_index(self, page):
+    def get(self, page):
         all_count = HS.getArticlesCount()
         page_obj = Pagenation(page, all_count, 7)  # 每页7项数据
         str_page = page_obj.generate_str_page('/index/')  # 分页
