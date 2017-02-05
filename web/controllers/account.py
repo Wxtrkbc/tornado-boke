@@ -11,7 +11,6 @@ import json
 
 
 class RegisterHandler(BaseHandler):
-
     def get(self):
         self.render('account/register.html')
 
@@ -24,7 +23,7 @@ class RegisterHandler(BaseHandler):
             limit_day = current_date - datetime.timedelta(minutes=1)
             # 插入数据的时候记得直接获取一下last_nid,避免再次去数据库查询一次用户的id
             rep = AS.register(form, limit_day, rep, current_date)
-            if rep.status:      # 注册成功就认为登陆了
+            if rep.status:  # 注册成功就认为登陆了
                 self.session['is_login'] = True
                 form._value_dict.update({'nid': rep.message['last_nid']})
                 form._value_dict.pop('ctime')
@@ -35,7 +34,6 @@ class RegisterHandler(BaseHandler):
 
 
 class LoginHandler(BaseHandler):
-
     def get(self):
         self.render('account/login.html')
 

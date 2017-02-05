@@ -2,12 +2,15 @@
 # coding=utf-8
 
 import config
+
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from dao import SqlAchemyOrm as ORM
+
 from sqlalchemy import and_, or_
 from sqlalchemy.sql import func
+
 from web.commons.generate_str import generate_password
+from dao import SqlAchemyOrm as ORM
 
 
 # 用来连接数据库
@@ -50,7 +53,8 @@ class UserInfoDao:
     def fetchByUE(self, user, pwd):
         ret = self.conn.query(ORM.UserInfo).filter(
             or_(
-                and_(ORM.UserInfo.username == user, ORM.UserInfo.password == generate_password(pwd)),
+                and_(ORM.UserInfo.username == user,
+                     ORM.UserInfo.password == generate_password(pwd)),
                 and_(ORM.UserInfo.email == user, ORM.UserInfo.password == generate_password(pwd)),
             )
         ).first()
@@ -58,11 +62,13 @@ class UserInfoDao:
         return ret
 
     def deleteUserById(self, id_list):
-        self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.nid.in_(id_list)).delete(synchronize_session='fetch')
+        self.conn.query(ORM.UserInfo).filter(ORM.UserInfo.nid.in_(id_list)).delete(
+            synchronize_session='fetch')
         self.db_conn.close()
 
     def insetUser(self, username, password, email, ctime):
-        user = ORM.UserInfo(username=username, password=generate_password(password), email=email, ctime=ctime)
+        user = ORM.UserInfo(username=username, password=generate_password(password), email=email,
+                            ctime=ctime)
         self.conn.add(user)
         self.conn.flush()
         self.conn.refresh(user)
@@ -110,7 +116,8 @@ class SendMsgDao:
         return ret
 
     def fetchCountOverDate(self, email, limit_day):
-        ret = self.conn.query(ORM.SendMsg).filter(ORM.SendMsg.email == email, ORM.SendMsg.ctime < limit_day).count()
+        ret = self.conn.query(ORM.SendMsg).filter(ORM.SendMsg.email == email,
+                                                  ORM.SendMsg.ctime < limit_day).count()
         self.db_conn.close()
         return ret
 
@@ -196,18 +203,21 @@ class ArticleDao:
             ret = self.conn.query(ORM.Article.url, ORM.Article.title, ORM.Article.ctime,
                                   ORM.ArticleCategory.name).filter(and_(
                 ORM.Article.type_id == pid,
-                ORM.Article.type_id == ORM.ArticleCategory.nid)).order_by(ORM.Article.ctime.desc()).all()
+                ORM.Article.type_id == ORM.ArticleCategory.nid)).order_by(
+                ORM.Article.ctime.desc()).all()
         self.db_conn.close()
         return ret
 
     def fetchHotArticle(self):
-        ret = self.conn.query(ORM.Article.url, ORM.Article.title).order_by(ORM.Article.pageviews.desc(),
-                                                                           ORM.Article.ctime.desc())[0:8]
+        ret = self.conn.query(ORM.Article.url, ORM.Article.title).order_by(
+            ORM.Article.pageviews.desc(),
+            ORM.Article.ctime.desc())[0:8]
         self.db_conn.close()
         return ret
 
     def updatePageview(self, nid):
-        self.conn.query(ORM.Article).filter(ORM.Article.nid == nid).update({'pageviews': ORM.Article.pageviews + 1})
+        self.conn.query(ORM.Article).filter(ORM.Article.nid == nid).update(
+            {'pageviews': ORM.Article.pageviews + 1})
         self.db_conn.close()
 
     def fetchArticleById(self, nid):
@@ -223,7 +233,8 @@ class ArticleDao:
             ORM.Article,
             ORM.ArticleCategory.name,
             ORM.ArticleCategory.url,
-        ).filter(ORM.Article.type_id == ORM.ArticleCategory.nid).order_by(ORM.Article.ctime.desc()).all()
+        ).filter(ORM.Article.type_id == ORM.ArticleCategory.nid).order_by(
+            ORM.Article.ctime.desc()).all()
         self.db_conn.close()
         return ret
 
@@ -234,7 +245,8 @@ class ArticleCommentDao:
         self.conn = self.db_conn.connect()
 
     def getCountsByid(self, pid):
-        ret = self.conn.query(ORM.ArticleComment.nid).filter(ORM.ArticleComment.article_id == pid).count()
+        ret = self.conn.query(ORM.ArticleComment.nid).filter(
+            ORM.ArticleComment.article_id == pid).count()
         self.db_conn.close()
         return ret
 
@@ -247,7 +259,8 @@ class ArticleCommentDao:
             ORM.ArticleComment.ctime,
             ORM.ArticleComment.user_info_id,
             ORM.ArticleComment.article_id,
-        ).join(ORM.UserInfo).filter(ORM.ArticleComment.article_id == pid).order_by(ORM.ArticleComment.ctime.asc()).all()
+        ).join(ORM.UserInfo).filter(ORM.ArticleComment.article_id == pid).order_by(
+            ORM.ArticleComment.ctime.asc()).all()
         self.db_conn.close()
         return ret
 

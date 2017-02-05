@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-from web.commons.baseHandler import BaseHandler
-from service import adminService
-from web.commons import login_auth,admin_pager,create_table
 import datetime
 import json
 
-class LoginHandler(BaseHandler):
+from web.commons.baseHandler import BaseHandler
+from service import adminService
+from web.commons import login_auth, admin_pager, create_table
 
+
+class LoginHandler(BaseHandler):
     def get(self):
         self.render('admin/login.html')
 
@@ -46,7 +47,7 @@ class PageHandler(BaseHandler):
         page = self.get_argument('page', None)
         if page:
             user_count = adminService.fetchUserCount()
-            user_list = adminService.fetchUser()[(int(page)-1)*5:int(page)*5]
+            user_list = adminService.fetchUser()[(int(page) - 1) * 5:int(page) * 5]
             page = admin_pager.Pagenation(1, user_count, 5)
             str_page = page.generate_str_page()
             table_body = create_table.CreateTableBody(user_list)
@@ -80,4 +81,3 @@ class UserDeleteHandler(BaseHandler):
         if id_list_str != '[]':
             id_list = json.loads(id_list_str)
             adminService.deleteUser(id_list)
-

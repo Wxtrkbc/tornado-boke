@@ -4,10 +4,10 @@
 
 import sys
 import os
+import tornado.web
 
 sys.path.append(os.path.dirname(__file__))
 
-import tornado.web
 import session
 
 

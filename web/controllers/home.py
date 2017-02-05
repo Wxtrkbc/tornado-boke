@@ -18,26 +18,26 @@ from concurrent.futures import ThreadPoolExecutor
 
 
 class IndexHandler(BaseHandler):
-    # @gen.coroutine  # 使其变成异步非阻塞的
-    # def get(self, page):
-    #     thread_pool = ThreadPoolExecutor(2)
-    #     yield thread_pool.submit(self.block_index, page)
-    #
-    # @page_cache.cache
-    # def block_index(self, page):
-    #     all_count = HS.getArticlesCount()
-    #     page_obj = Pagenation(page, all_count, 7)  # 每页7项数据
-    #     str_page = page_obj.generate_str_page('/index/')  # 分页
-    #     content_list = HS.getAll()[page_obj.start_item:page_obj.end_item]
-    #     self.render('home/index.html', str_page=str_page, ret=content_list)
-
-    @page_cache.cache
+    @gen.coroutine  # 使其变成异步非阻塞的
     def get(self, page):
+        thread_pool = ThreadPoolExecutor(2)
+        yield thread_pool.submit(self.block_index, page)
+
+    # @page_cache.cache
+    def block_index(self, page):
         all_count = HS.getArticlesCount()
         page_obj = Pagenation(page, all_count, 7)  # 每页7项数据
         str_page = page_obj.generate_str_page('/index/')  # 分页
         content_list = HS.getAll()[page_obj.start_item:page_obj.end_item]
         self.render('home/index.html', str_page=str_page, ret=content_list)
+
+    # @page_cache.cache
+    # def get(self, page):
+    #     all_count = HS.getArticlesCount()
+    #     page_obj = Pagenation(page, all_count, 7)  # 每页7项数据
+    #     str_page = page_obj.generate_str_page('/index/')  # 分页
+    #     content_list = HS.getAll()[page_obj.start_item:page_obj.end_item]
+    #     self.render('home/index.html', str_page=str_page, ret=content_list)
 
 
 class AboutHandler(BaseHandler):
@@ -84,7 +84,8 @@ class ContentsHandler(BaseHandler):
         content_list = HS.getArticles()[page_obj.start_item:page_obj.end_item]
         # old_page = self.get_cookie('page', 1)  # 回去用户上一次所在的页面信息   后面来完善
 
-        self.render('contents.html', str_page=str_page, content_str=content_str, content_list=content_list,
+        self.render('contents.html', str_page=str_page, content_str=content_str,
+                    content_list=content_list,
                     all_count=all_count)
 
 
@@ -96,7 +97,8 @@ class CategHandler(BaseHandler):
         str_page = page_obj.generate_str_page('/categ/{}/'.format(pid))
         content_list = HS.getArticles(pid)[page_obj.start_item:page_obj.end_item]
         content_str = content_list[0][3]
-        self.render('contents.html', str_page=str_page, content_str=content_str, content_list=content_list,
+        self.render('contents.html', str_page=str_page, content_str=content_str,
+                    content_list=content_list,
                     all_count=all_count)
 
 

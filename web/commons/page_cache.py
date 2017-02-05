@@ -16,5 +16,7 @@ def cache(func):
             self.write(ret)
             return
         func(self, *args, **kwargs)
-        r.set('index', self._response_html, ex=config.REDIS_PAGE_CAHE_EXPIRES)   # self._response_html为修改源码里
+        r.set('index', self._response_html,
+              ex=config.REDIS_PAGE_CAHE_EXPIRES)  # self._response_html为修改源码里
+
     return wrapper

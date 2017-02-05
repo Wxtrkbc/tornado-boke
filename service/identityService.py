@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-from dao.DaoFactory import *
 import datetime
+
+from dao.DaoFactory import *
 from web.commons import generate_str
 from web.commons import sendemail
+
 
 def isExistUser(username):
     userInfo = UserInfoFactory.get_dao()
@@ -25,9 +27,9 @@ def emailCode(email):
     ret_dict = {}
     code_count = sendMsgObj.fetchCount(email)  # 获取该邮箱已经发送code的次数
     if not code_count:
-        sendMsgObj.insertCode(email, random_code, current_date)     # 第一次插入数据验证码数据
+        sendMsgObj.insertCode(email, random_code, current_date)  # 第一次插入数据验证码数据
         ret_dict['status'] = 'True'
-    else:            # 判断一个小时内发送验证码的次数是不是大于限定的
+    else:  # 判断一个小时内发送验证码的次数是不是大于限定的
         limit_day = current_date - datetime.timedelta(hours=1)
         ret = sendMsgObj.fetchCountBytime(email, limit_day)
         if ret:

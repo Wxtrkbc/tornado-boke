@@ -18,6 +18,7 @@ def CreateTableBody(user_list):
     html = ''
     for user in user_list:
         html += TMP % (
-            user.nid, user.nid, user.nid, user.username, user.username, user.email, user.email, user.user_type,
+            user.nid, user.nid, user.nid, user.username, user.username, user.email, user.email,
+            user.user_type,
             user.user_type, user.ctime, user.ctime)
     return html

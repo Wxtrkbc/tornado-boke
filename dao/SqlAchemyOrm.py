@@ -3,14 +3,16 @@
 
 
 # 该文件仅仅用来创建表结构
+import config
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
 from sqlalchemy import Integer, String, TIMESTAMP, TEXT
 from sqlalchemy import ForeignKey, UniqueConstraint, Index
-from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy import create_engine
-import config
+
+# from sqlalchemy.orm import sessionmaker, relationship
+
 
 ENGINE = create_engine(config.SQL_ALCHEMY_CONN_STR, max_overflow=config.SQL_ALCHEMY_MAX_OVERFLOW)
 
@@ -37,7 +39,7 @@ class UserInfo(Base):
     password = Column(String(32))
     email = Column(String(32))
     ctime = Column(TIMESTAMP)
-    user_type = Column(Integer, default=0)   # 默认为普通用户 ，1为管理员
+    user_type = Column(Integer, default=0)  # 默认为普通用户 ，1为管理员
 
     # 自引用，多对多
     # followed = relationship('UserInfo', secondary='Follow.__table__',  backref='followers')
@@ -68,12 +70,10 @@ class Article(Base):
     ctime = Column(TIMESTAMP)
     title = Column(String(32))
     url = Column(String(128))
-    content = Column(TEXT)          # 概要
-    main_content = Column(TEXT)     # 文章主要1内容
+    content = Column(TEXT)  # 概要
+    main_content = Column(TEXT)  # 文章主要1内容
     type_id = Column(Integer, ForeignKey('article_category.nid'))
     pageviews = Column(Integer)
-
-
 
 
 class ArticleComment(Base):
@@ -88,17 +88,12 @@ class ArticleComment(Base):
     content = Column(String(150))
 
 
-
 def init_db():
     Base.metadata.create_all(ENGINE)
 
 
 def drop_db():
     Base.metadata.drop_all(ENGINE)
-
-
-
-
 
 # drop_db()
 # init_db()

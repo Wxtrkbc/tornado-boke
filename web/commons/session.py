@@ -3,12 +3,12 @@
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-import config
 from hashlib import sha1
 import time
 import json
+
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+import config
 
 
 class SessionFactory:
@@ -81,7 +81,7 @@ class RedisSession:
             try:
                 ret = json.loads(ret_str)  # 预防ret_str本身是字典，如果value是字典的话将其转换成字典
             except:
-                ret = ret_str   # 不是字典的话，返回其本身
+                ret = ret_str  # 不是字典的话，返回其本身
         return ret
 
         # result = r.hget(self.random_str, key)
@@ -123,11 +123,12 @@ class MemcachedSession:
             self.random_str = SessionFactory.create_session_id()
             MemcachedSession.conn.set(self.random_str, json.dumps({}), config.SESSION_EXPIRES)
 
-        MemcachedSession.conn.set(self.random_str, MemcachedSession.conn.get(self.random_str), config.SESSION_EXPIRES)
+        MemcachedSession.conn.set(self.random_str, MemcachedSession.conn.get(self.random_str),
+                                  config.SESSION_EXPIRES)
         expires_time = time.time() + config.SESSION_EXPIRES
         handler.set_cookie(MemcachedSession.session_id, self.random_str, expires=expires_time)
 
-    def get_dict(self):    # 根据随机字符串去mencache里面去取session
+    def get_dict(self):  # 根据随机字符串去mencache里面去取session
         ret = MemcachedSession.conn.get(self.random_str)
         return json.loads(ret)
 

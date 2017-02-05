@@ -2,7 +2,6 @@
 # coding=utf-8
 
 from dao.DaoFactory import *
-import datetime
 
 
 def login(form):
@@ -13,7 +12,8 @@ def login(form):
 
 def register(form, limit_day, rep, current_date):
     sendMsgObj = SendMsgFactory.get_dao()
-    is_valid_code = sendMsgObj.fetchValidCode(form._value_dict['email'], form._value_dict['email_code'], limit_day)
+    is_valid_code = sendMsgObj.fetchValidCode(form._value_dict['email'],
+                                              form._value_dict['email_code'], limit_day)
     if not is_valid_code:
         rep.status = False
         rep.message['email_code'] = '邮箱验证码不正确或过期'

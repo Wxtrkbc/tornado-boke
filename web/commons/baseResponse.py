@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-class BaseResponse:
 
+class BaseResponse:
     def __init__(self):
         self.status = False
         self.data = None

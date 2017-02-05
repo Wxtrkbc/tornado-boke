@@ -4,6 +4,7 @@ import time
 import hashlib
 import random
 
+
 # 生成4位验证码
 def generate_yzm():
     code = ''
@@ -29,4 +30,3 @@ def generate_password(value):
     obj = hashlib.md5()
     obj.update(value.encode('utf-8'))
     return obj.hexdigest()
-

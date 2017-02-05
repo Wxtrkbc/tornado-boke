@@ -2,9 +2,9 @@
 # coding:utf-8
 
 import random
+import os
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
-import os
 
 path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'Monaco.ttf')
 

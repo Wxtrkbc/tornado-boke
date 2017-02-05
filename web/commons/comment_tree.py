@@ -3,6 +3,7 @@
 
 import collections
 
+
 def tree_search(d_dic, comment_obj):
     # 在comment_dic中一个一个的寻找其回复的评论
     # 检查当前评论的 reply_id 和 comment_dic中已有评论的nid是否相同，
@@ -19,7 +20,6 @@ def tree_search(d_dic, comment_obj):
 
 
 def build_tree(comment_list):
-
     comment_dic = collections.OrderedDict()
 
     for comment_obj in comment_list:
@@ -30,4 +30,3 @@ def build_tree(comment_list):
             # 如果是回复的评论，则需要在 comment_dic 中找到其回复的评论
             tree_search(comment_dic, comment_obj)
     return comment_dic
-
